@@ -1,0 +1,30 @@
+.sample_gradient {
+    background: linear-gradient(45deg, #e7ecf7, white, #ebf2fa);
+    background-size: 200% 100%;
+    transition: background-position 500ms ease-in-out;
+    animation: flowAnimation 10s linear infinite 2s;
+}
+
+
+
+.functionality_gradient {
+    background: linear-gradient(75deg, #aaabac, white, #808284);
+    background-size: 200% 100%;
+    transition: background-position 500ms ease-in-out;
+    animation: flowAnimation 10s linear infinite 2s;
+}
+
+@keyframes flowAnimation {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    100% {
+        background-position: 0% 00%;
+    }
+
+}

@@ -1,4 +1,21 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require('tailwindcss/plugin');
+
+const calcPlugin = plugin(function ({ addUtilities }) {
+  addUtilities({
+    '.chatcomp': {
+      minHeight: 'calc(100vh - 12rem)'
+    },
+
+    '.convdiv': {
+      maxHeight: 'calc(100vh - 20rem)',
+      height: 'calc(100vh - 20rem)'
+    }
+
+  })
+})
+
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -14,5 +31,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [calcPlugin],
 };
