@@ -41,11 +41,11 @@ body {
     font-weight: 400;
   }
 
-  .history button {
-    /* display: none; */
+  .history .optionBtn {
+    display: none;
   }
 
-  .history:hover button {
+  .history:hover .optionBtn {
     display: block;
   }
 }

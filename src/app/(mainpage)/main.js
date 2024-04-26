@@ -16,38 +16,40 @@ const Main = () => {
     const [prompt, setPrompt] = useState('')
     const now = new Date();
 
-
-
     const handleConvo = (e) => {
+
         if ((e?.key === 'Enter' || !e) && prompt) {
-            let initConv = { prompt, response: '', convId: convoArr.length, date: new Date }
-            convoArr.push(initConv);
+
+            const initConv = {
+                prompt,
+                response: '',
+                convId: convoArr.length,
+                date: new Date()
+            };
+
+            const newConvoArr = [...convoArr, initConv]
 
             const content = `Remember, each response should be gentle and tailored as if you're chatting with a child on an adventure. Your role is to be their friendly AI travel companion, so begin each interaction with a comforting tone.
-            \n ${prompt}`
+            \n ${prompt}`;
 
             getResponse(content)
                 .then((response) => {
-                    const convId = convoArr.length === 0 ? 0 : convoArr.length - 1;
-                    const updatedConvoArr = convoArr.map((chat) => {
-                        if (chat.convId === convId) {
-                            const substrings = response.content.split(/\d+/);
-                            const updatedResponse = substrings.join('\n');
-                            return { ...chat, response: updatedResponse };
-                        }
-                        return chat;
+                    const updatedConvoArr = newConvoArr.map((chat, index) => {
+                        const substrings = response.content.split(/\d+/);
+                        const updatedResponse = substrings.join('\n');
+                        return { ...chat, response: updatedResponse, convId: index, isRename: false, isShare: false, isOption: false };
                     });
 
                     setConvoArr(updatedConvoArr);
                     setPrompt('');
-                    handleHistory(updatedConvoArr, convId)
+                    handleHistory(updatedConvoArr);
                 })
                 .catch((err) => {
-                    console.error(err);
+                    console.error('Error fetching response:', err);
                 });
         }
-
     };
+
 
     const handleHistory = (convoArr) => {
 
@@ -81,13 +83,19 @@ const Main = () => {
         localStorage.setItem('historyId', historyId)
     };
 
+    const handleDeleteConverSation = (convId) => {
+        let updateScreen = [...convoArr]
+        updateScreen = updateScreen.filter(screen => screen.convId !== convId)
+        setConvoArr(updateScreen)
+    }
+
     return (<section>
         <NavBar />
         <div className={`${historyToggle ? 'md:left-[150px]' : 'left-0'} duration-200 ease-in-out transition-left relative`}>
             <IntroComp />
             <ChatComp convoArr={convoArr} handleConvo={handleConvo} prompt={prompt} setPrompt={setPrompt} />
         </div>
-        <HistoryExpanded handleNewConversation={handleNewConversation} convoArr={convoArr} />
+        <HistoryExpanded handleNewConversation={handleNewConversation} convoArr={convoArr} handleDeleteConverSation={handleDeleteConverSation} />
         <NavExpand />
     </section >)
 }
