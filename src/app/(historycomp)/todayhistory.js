@@ -2,7 +2,7 @@ import { SlOptions } from "react-icons/sl";
 import { BsChatSquareFill } from "react-icons/bs";
 import OptionComp from "./optioncomp";
 
-const TodayHistory = ({ history, handleMore, handleOptionEvents }) => {
+const TodayHistory = ({ history, handleMore, handleOptionEvents, setUpdate }) => {
 
     return (
         history.length > 0 &&
@@ -18,6 +18,7 @@ const TodayHistory = ({ history, handleMore, handleOptionEvents }) => {
                         <button onClick={() => handleMore(conv.convId, hist.historyId)} className={`h-fit after:content-[${<BsChatSquareFill />}] optionBtn after:block after:text-xs after:tracking-tight after:absolute after:right-0 after:bottom-0 after:top-0 after:w-6 hover:after:inline-block`}><SlOptions /></button>
 
                         <OptionComp
+                            setUpdate={setUpdate}
                             handleOptionEvents={handleOptionEvents}
                             convId={conv.convId}
                             historyId={hist.historyId}

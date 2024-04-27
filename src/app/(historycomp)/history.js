@@ -223,7 +223,7 @@ const HistoryExpanded = ({ handleNewConversation, convoArr, handleDeleteConverSa
             </div>
             <div>
 
-                <TodayHistory history={history.todaysHistory} handleMore={handleMore} handleOptionEvents={handleOptionEvents} />
+                <TodayHistory history={history.todaysHistory} handleMore={handleMore} handleOptionEvents={handleOptionEvents} setUpdate={setUpdate} />
                 <YesterdayHistory history={history.yesterdaysHistory} />
                 <Prev7DaysHistory history={history.previous7Days} />
                 <Prev30DaysHistory history={history.previous30Days} />
