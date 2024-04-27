@@ -42,10 +42,10 @@ body {
   }
 
   .history .optionBtn {
-    display: none;
+    opacity: 0;
   }
 
   .history:hover .optionBtn {
-    display: block;
+    opacity: 1;
   }
 }

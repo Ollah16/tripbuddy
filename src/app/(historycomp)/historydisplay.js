@@ -33,14 +33,13 @@ const HistoryDisplay = ({
                                 onKeyUp={handleInputChange}
                                 className="bg-transparent border-2 border-white rounded focus:outline-none px-2 caret-white" />}
                         <button onClick={() => handleMore(conv.convId, hist.historyId)}
-                            onMouseLeave={() => handleMouseLeave()}
                             className={`h-fit optionBtn`}><SlOptions /></button>
 
-                        <OptionComp
+                        {/* <OptionComp
                             convId={conv.convId}
                             historyId={hist.historyId}
                             isOption={conv.isOption}
-                        />
+                        /> */}
                     </li>)
                 }
                 )
