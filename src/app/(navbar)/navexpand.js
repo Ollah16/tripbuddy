@@ -22,10 +22,9 @@ const NavExpand = () => {
 
 
     return (
-        <div className={`absolute px-1 py-2 min-h-screen w-[300px] bg-[#4a5568] transition-left duration-200 ease-in-out overflow-x-visible overflow-y-auto top-16 md:hidden block bottom-0 ${!navExpandToggle ? 'left-[-1000px]' : 'left-0'}`}>
+        <div className={`absolute px-1 py-2 min-h-screen w-[300px] bg-[#4a5568] transition-left duration-200 ease-in-out overflow-visible overflow-y-auto top-16 md:hidden block bottom-0 ${!navExpandToggle ? 'left-[-1000px]' : 'left-0'}`}>
 
-
-            <ul className="flex flex-col text-white relative">
+            <ul className="flex flex-col text-white relative h-auto">
                 <NewChat />
                 <HistoryFeed />
                 {/* {navList.map((list, index) => (
@@ -36,6 +35,7 @@ const NavExpand = () => {
                 <Link href={'/'} className="border-0 inline-block bg-[#0077B6] px-1 py-2 my-2 text-center rounded hover:bg-[#66A8D5] transition-colors duration-200 ease-in-out text-white text-sm">Login</Link>
                 <Link href={'/'} className="border-0 inline-block bg-[#3498db] hover:bg-[#2980b9] text-center transition-colors duration-200 ease-in-out px-3  py-2 text-white rounded text-sm">Sign up</Link>
             </ul>
+
         </div >
     )
 }
