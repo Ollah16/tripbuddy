@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useAppStore } from "../appcontext";
 
 const HistoryStore = createContext()
@@ -11,6 +11,39 @@ export const HistoryContext = ({ children }) => {
     const { handleDeleteConverSation, handleUpdateScreen } = useAppStore()
     const [isHistoryUpDate, setUpdate] = useState(false)
 
+    useEffect(() => {
+
+        const updateRename = () => {
+            const storedHistory = localStorage.getItem('convHistory');
+            if (!storedHistory) {
+                console.error('No conversation history found in localStorage.');
+                return;
+            }
+
+            const historyArr = JSON.parse(storedHistory);
+            if (!Array.isArray(historyArr)) {
+                console.error('Invalid conversation history format.');
+                return;
+            }
+
+            const updateHistory = historyArr.map(hist => {
+                return {
+                    ...hist,
+                    convoArr: hist.convoArr.map(conv => ({
+                        ...conv,
+                        isRename: false,
+                        isOption: false
+                    }))
+                };
+            });
+
+            localStorage.setItem('convHistory', JSON.stringify(updateHistory));
+
+        }
+
+        updateRename()
+
+    }, [])
 
     const handleDelete = (convId, historyId) => {
         const storedHistory = localStorage.getItem('convHistory');

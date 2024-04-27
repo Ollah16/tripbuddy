@@ -83,6 +83,7 @@ export const HandleApp = ({ children }) => {
         setConvoArr([])
         handleHisToggle(false)
         if (!localStorage.getItem('convHistory')) return
+        hanleNavToggle(false)
         handleIncHistory()
     };
 
@@ -103,6 +104,7 @@ export const HandleApp = ({ children }) => {
         const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
         const findHistory = convHistory.find(conv => conv.historyId === historyId)
         setConvoArr(findHistory.convoArr)
+        hanleNavToggle(false)
     }
 
     const handleUpdateScreen = (convId, prompt) => {

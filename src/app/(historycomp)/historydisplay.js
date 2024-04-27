@@ -12,10 +12,9 @@ const HistoryDisplay = ({
     const { handleFetchHistory } = useAppStore()
 
     const { handleMore, handleInputChange } = useHistoryFeed()
-
     return (
         history.length > 0 &&
-        <ul className="px-1">
+        <ul className="px-1 text-white">
 
             <li className="text-xs my-1">{title.charAt(0).toUpperCase() + title.slice(1)}</li>
 
@@ -30,8 +29,9 @@ const HistoryDisplay = ({
                                 id={`${conv.convId}-${hist.historyId}`}
                                 defaultValue={conv.prompt}
                                 onKeyUp={handleInputChange}
-                                className="bg-transparent ring-1 ring-white rounded focus:outline-none px-2 caret-black" />}
-                        <button onClick={() => handleMore(conv.convId, hist.historyId)} className={`h-fit after:content-[${<BsChatSquareFill />}] optionBtn after:block after:text-xs after:tracking-tight after:absolute after:right-0 after:bottom-0 after:top-0 after:w-6 hover:after:inline-block`}><SlOptions /></button>
+                                className="bg-transparent ring-1 ring-white rounded focus:outline-none px-2 caret-white" />}
+                        <button onClick={() => handleMore(conv.convId, hist.historyId)}
+                            className={`h-fit optionBtn`}><SlOptions /></button>
 
                         <OptionComp
                             convId={conv.convId}
