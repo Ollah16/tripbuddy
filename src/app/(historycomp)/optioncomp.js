@@ -2,14 +2,17 @@ import { useEffect, useRef } from "react";
 import { FiShare } from "react-icons/fi";
 import { FiEdit2 } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
+import { useHistoryFeed } from "./historycontext";
 
-const OptionComp = ({ handleOptionEvents, convId, historyId, isOption, setUpdate }) => {
+const OptionComp = ({ convId, historyId, isOption }) => {
 
     const options = [
         { func: 'Share', icon: <FiShare /> },
         { func: 'Rename', icon: <FiEdit2 /> },
         { func: 'Delete chat', icon: <MdOutlineDelete />, color: 'text-red-500' }
     ]
+
+    const { handleOptionEvents, setUpdate } = useHistoryFeed()
 
     const optionRef = useRef()
 

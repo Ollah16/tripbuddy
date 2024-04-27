@@ -1,14 +1,55 @@
-import { useEffect } from "react"
-import { useToggle } from "../toggleContext"
+import { useEffect, useState } from "react"
 import ChatBoxComp from "./chatboxcomp"
-import Functionalities from "./functionalitiescomp"
-import SamplePrompts from "./samplepromptscomp"
 import Conversations from "./conversations"
-import FunFacts from "./funfacts"
+import XteristicsComp from "./xteristics"
+import { useAppStore } from "../appcontext"
 
-const ChatComp = ({ convoArr, handleConvo, prompt, setPrompt, pauseScroll, handlePause }) => {
+const ChatComp = () => {
 
-    const { historyToggle, handleHisToggle } = useToggle()
+
+    const { historyToggle, handleHisToggle, convoArr } = useAppStore()
+
+    const [xteristics, setXteristics] = useState({
+
+        'sample prompts': [
+            "What's on your mind today? I'm here to help!",
+            "Tell me about your journey. I'm listening!",
+            "Need some company on your journey? Just say hi!",
+            "Feeling bored? Let's chat and pass the time together!",
+            `Ready for adventure? Let's explore together!`],
+
+        'functionalities': [
+            {
+                title: 'Conversation',
+                description: 'Engage users in natural language dialogues.'
+            },
+            {
+                title: 'Information',
+                description: ' Provide answers to questions and facts on various topics.'
+            },
+            {
+                title: 'Games',
+                description: 'Offer interactive quizzes and games for entertainment.'
+            },
+            {
+                title: 'Storytelling',
+                description: ' Narrate stories or adventures to captivate users.'
+            },
+            {
+                title: ' Navigation',
+                description: ' Assist users with directions and travel tips.'
+            }
+        ],
+
+        'fun facts': [
+            'The Great Wall of China could circle the Earth eight times!',
+            `The Eiffel Tower was supposed to be temporary!`,
+            `Australia's Great Barrier Reef is visible from space!`,
+            `The Amazon Rainforest is called "The Lungs of the Earth"!`,
+            `Penguins can dive 1,850 feet underwater!`],
+
+
+    })
 
     useEffect(() => {
 
@@ -29,15 +70,13 @@ const ChatComp = ({ convoArr, handleConvo, prompt, setPrompt, pauseScroll, handl
 
             <div className={`transition-opacity duration-200 relative ease-in-out ${convoArr.length ? 'hidden' : 'flex'} gap-5 items-center w-11/12 md:w-8/12 mx-auto  
             ${historyToggle ? 'md:flex-col lg:flex-row px-5' : 'flex-col sm:flex-row md:flex-row'}`}>
-                <SamplePrompts />
-                <Functionalities />
-                <FunFacts />
+
+                {Object.entries(xteristics).map(([key, value]) => {
+                    return <XteristicsComp title={key} key={key} value={value} />;
+                })}
             </div>
 
-            <ChatBoxComp
-                handleConvo={handleConvo}
-                prompt={prompt}
-                setPrompt={setPrompt} />
+            <ChatBoxComp />
 
         </div>
     )

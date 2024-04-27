@@ -1,9 +1,9 @@
 'use client'
 
-import { useToggle } from "../toggleContext"
+import { useAppStore } from "../appcontext"
 
 const NavBurger = () => {
-    const { navExpandToggle, hanleNavToggle } = useToggle()
+    const { navExpandToggle, hanleNavToggle } = useAppStore()
 
     return (
         <div className="relative flex flex-col justify-center md:hidden gap-1 cursor-pointer w-6 h-6 overflow-hidden" onClick={() => hanleNavToggle(!navExpandToggle)}>

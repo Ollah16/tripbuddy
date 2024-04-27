@@ -1,6 +1,6 @@
 'use client'
-import { useEffect, useRef, useState } from "react"
-import { useToggle } from "../toggleContext"
+import { useEffect, useRef } from "react"
+import { useAppStore } from "../appcontext"
 
 export const navList = ['About', 'Activities', 'FAQs']
 
@@ -8,7 +8,7 @@ export const navList = ['About', 'Activities', 'FAQs']
 const Navlist = () => {
     const navListRef = useRef()
     const navHover = useRef()
-    const { historyToggle, handleHisToggle } = useToggle()
+    const { historyToggle, handleHisToggle } = useAppStore()
 
     useEffect(() => {
         const listRef = navListRef.current

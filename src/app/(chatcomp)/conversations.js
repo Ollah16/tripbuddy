@@ -1,13 +1,12 @@
 import { PiUserDuotone } from "react-icons/pi";
 import { MdOutlineWebhook } from "react-icons/md";
-import { useToggle } from "../toggleContext";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
-import PromptResponse from "./promptresponse";
+import { useAppStore } from "../appcontext";
 
-const Conversations = ({ convoArr }) => {
+const Conversations = () => {
 
-    const { historyToggle } = useToggle()
+    const { historyToggle, convoArr } = useAppStore()
     const convRef = useRef()
     const [convScroll, setConvScroll] = useState(true)
 

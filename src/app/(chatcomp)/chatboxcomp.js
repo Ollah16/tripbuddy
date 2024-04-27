@@ -1,12 +1,11 @@
 import { BsSendFill } from "react-icons/bs";
 import { TiMicrophoneOutline } from "react-icons/ti";
 import { FaRegImage } from "react-icons/fa6";
-import { useToggle } from "../toggleContext";
-import { useEffect, useState } from "react";
+import { useAppStore } from "../appcontext";
 
-const ChatBoxComp = ({ handleConvo, setPrompt, prompt }) => {
+const ChatBoxComp = () => {
 
-    const { historyToggle } = useToggle()
+    const { historyToggle, setPrompt, prompt, handleConvo } = useAppStore()
 
     return (
         <div className={`w-11/12  ${historyToggle ? 'md:w-8/12' : 'md:w-9/12'} overflow-hidden h-24`}>
