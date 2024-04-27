@@ -1,3 +1,7 @@
-.history_showbtn {
-    display: block;
+.history_height {
+    height: calc(100vh - 13rem);
+}
+
+.history_heightBigScreen {
+    height: calc(100vh - 8rem);
 }

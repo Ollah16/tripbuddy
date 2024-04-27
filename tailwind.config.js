@@ -5,14 +5,8 @@ const plugin = require('tailwindcss/plugin');
 const calcPlugin = plugin(function ({ addUtilities }) {
   addUtilities({
     '.chatcomp': {
-      minHeight: 'calc(100vh - 12rem)'
-    },
-
-    '.convdiv': {
-      maxHeight: 'calc(100vh - 20rem)',
-      height: 'calc(100vh - 20rem)'
+      minHeight: 'calc(100vh - 9rem)'
     }
-
   })
 })
 

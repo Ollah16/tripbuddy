@@ -218,9 +218,33 @@ export const HistoryContext = ({ children }) => {
 
     }
 
+    const handleMouseLeave = () => {
+
+        let updateRename = localStorage.getItem('convHistory')
+        if (!updateRename) {
+            console.log('no history found')
+            return
+        }
+        let parsedHistory = JSON.parse(updateRename)
+        parsedHistory = parsedHistory.map(hist => {
+            return {
+                ...hist,
+                convoArr: hist.convoArr.map(conv => {
+                    return {
+                        ...conv,
+                        isRename: false
+                    }
+                })
+            }
+        })
+
+        localStorage.setItem('convHistory', JSON.stringify(parsedHistory))
+        setUpdate(prev => !prev)
+    }
+
     return (
         <HistoryStore.Provider
-            value={{ handleDelete, handleClickRename, handleSubmitRename, handleInputChange, handleMore, handleOptionEvents, isHistoryUpDate, setUpdate }}>
+            value={{ handleDelete, handleMouseLeave, handleClickRename, handleSubmitRename, handleInputChange, handleMore, handleOptionEvents, isHistoryUpDate, setUpdate }}>
             {children}
         </HistoryStore.Provider>
     )

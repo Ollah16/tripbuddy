@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAppStore } from "../appcontext";
-import { HistoryContext, useHistoryFeed } from "./historycontext";
+import { useHistoryFeed } from "./historycontext";
 import { processedHistory } from "./processhistory";
 import HistoryDisplay from "./historydisplay";
+import styles from './history.module.css'
 
 const HistoryFeed = () => {
 
     const [history, setHistory] = useState();
-    const { convoArr } = useAppStore()
-
+    const { convoArr, historyToggle } = useAppStore()
+    const [isBigScreen, setBigScreen] = useState()
     const { isHistoryUpDate } = useHistoryFeed()
 
     useEffect(() => {
@@ -17,21 +18,34 @@ const HistoryFeed = () => {
 
     }, [convoArr, isHistoryUpDate]);
 
+    useEffect(() => {
 
-    return (<div>
-        {history && Object.entries(history).map((hist) => {
-            const [key, value] = hist;
-            return Array.isArray(value) && value.length > 0 && (
-                <div key={key}>
-                    <HistoryDisplay
-                        title={key}
-                        history={value}
-                    />
-                </div>
-            );
-        })}
+        const handleScreen = () => {
+            if (window.innerWidth > 768) {
+                return setBigScreen(true)
+            }
+            return setBigScreen(false)
+        }
+        handleScreen()
+    }, [historyToggle])
 
-    </div>
+
+    return (
+        <div className={`overflow-y-auto ${!isBigScreen ? styles.history_height : styles.history_heightBigScreen}`}>
+            {
+                history && Object.entries(history).map((hist) => {
+                    const [key, value] = hist;
+                    return Array.isArray(value) && value.length > 0 && (
+                        <HistoryDisplay
+                            title={key}
+                            key={key}
+                            history={value}
+                        />
+                    );
+                })
+            }
+
+        </div >
     )
 }
 

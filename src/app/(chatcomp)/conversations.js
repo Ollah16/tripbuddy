@@ -3,6 +3,7 @@ import { MdOutlineWebhook } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
 import { useAppStore } from "../appcontext";
+import styles from './chat.module.css'
 
 const Conversations = () => {
 
@@ -39,7 +40,7 @@ const Conversations = () => {
         behavior: 'smooth'
     });
 
-    return (<div ref={convRef} className={`bg-gray-200 border convdiv rounded ${historyToggle ? 'md:w-8/12' : 'md:w-9/12'} convdiv border-gray-900/10 overflow-y-auto w-11/12 mx-auto p-5 ${convoArr.length ? 'block' : 'hidden'}`}>
+    return (<div ref={convRef} className={`bg-gray-200 ${styles.conversation_box} border rounded ${historyToggle ? 'md:w-8/12' : 'md:w-9/12'} border-gray-900/10 overflow-y-auto w-11/12 mx-auto p-5 ${convoArr.length ? 'block' : 'hidden'}`}>
         <div>
             <ul className="inline-block w-full text-gray-800 relative">
                 {convoArr.map((chat, index) => (

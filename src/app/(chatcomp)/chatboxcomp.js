@@ -28,7 +28,6 @@ const ChatBoxComp = () => {
                         className={`text-xl text-black duration-200 ease-in-out hover:rotate-45 ${prompt ? 'rotate-45' : ''} transition-transform cursor-pointer animation`} />
                 </button>
             </div>
-            <p className="text-xs text-center my-2 font-medium text-black/75">TripPal, as an experimental product, might occasionally generate results that are inaccurate or misleading.</p>
         </div >
     )
 }
