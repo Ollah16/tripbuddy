@@ -22,9 +22,9 @@ const NavExpand = () => {
 
 
     return (
-        <div className={`absolute px-1 py-2 min-h-screen w-[300px] bg-[#4a5568] transition-left duration-200 ease-in-out overflow-visible overflow-y-auto top-16 md:hidden block bottom-0 ${!navExpandToggle ? 'left-[-1000px]' : 'left-0'}`}>
+        <div className={`absolute px-1 py-2 min-h-screen w-[300px] bg-[#4a5568] transition-left duration-200 ease-in-out overflow-visible top-16 md:hidden block bottom-0 ${!navExpandToggle ? 'left-[-1000px]' : 'left-0'}`}>
 
-            <ul className="flex flex-col text-white relative h-auto">
+            <ul className="flex flex-col text-white relative h-auto overflow-y-auto">
                 <NewChat />
                 <HistoryFeed />
                 {/* {navList.map((list, index) => (
