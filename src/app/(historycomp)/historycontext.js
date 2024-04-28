@@ -203,7 +203,6 @@ export const HistoryContext = ({ children }) => {
     }
 
     const handleOptionEvents = (functionType, convId, historyId) => {
-        console.log(convId, historyId)
         switch (functionType) {
             case 'Share':
                 break;
