@@ -30,5 +30,5 @@
 }
 
 .conversation_box {
-    min-height: calc(100vh - 19rem);
+    max-height: calc(100vh - 19rem);
 }

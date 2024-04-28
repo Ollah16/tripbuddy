@@ -66,10 +66,10 @@ const ChatComp = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-between gap-10 overflow-y-auto chatcomp relative" >
+        <div className="flex flex-col items-center justify-between gap-10 chatcomp relative" >
             <Conversations convoArr={convoArr} />
 
-            <div className={`transition-opacity duration-200 relative ease-in-out ${styles.conversation_box} ${convoArr.length ? 'hidden' : 'flex'} gap-5 items-center w-11/12 md:w-8/12 mx-auto  
+            <div className={`transition-opacity duration-200 py-5 relative overflow-y-auto ease-in-out ${styles.conversation_box} ${convoArr.length ? 'hidden' : 'flex'} gap-5 items-center w-11/12 md:w-8/12 mx-auto  
             ${historyToggle ? 'md:flex-col lg:flex-row px-5' : 'flex-col sm:flex-row md:flex-row'}`}>
 
                 {Object.entries(xteristics).map(([key, value]) => {

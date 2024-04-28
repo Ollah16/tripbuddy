@@ -36,7 +36,11 @@ const Navlist = () => {
     }
 
     const handleNavList = (toggleType) => {
-        handleHisToggle(!historyToggle)
+        switch (toggleType) {
+            case 'Activities':
+                handleHisToggle(!historyToggle)
+                break;
+        }
     }
 
     return (
