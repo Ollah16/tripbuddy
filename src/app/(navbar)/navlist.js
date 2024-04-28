@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react"
 import { useAppStore } from "../appcontext"
 
-export const navList = ['About', 'Activities', 'FAQs']
+export const navList = ['About', 'Activity', 'FAQs']
 
 
 const Navlist = () => {
@@ -37,9 +37,12 @@ const Navlist = () => {
 
     const handleNavList = (toggleType) => {
         switch (toggleType) {
-            case 'Activities':
+            case 'Activity':
                 handleHisToggle(!historyToggle)
                 break;
+            default:
+                alert('Coming soon... Toggle Activity tab in the mean time');
+
         }
     }
 

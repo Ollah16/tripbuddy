@@ -37,9 +37,7 @@ export const HandleApp = ({ children }) => {
             getResponse(content)
                 .then((response) => {
                     const updatedConvoArr = newConvoArr.map((chat, index) => {
-                        const substrings = response.content.split(/\d+/);
-                        const updatedResponse = substrings.join('\n');
-                        return { ...chat, response: updatedResponse, convId: index, isRename: false, isShare: false, isOption: false };
+                        return { ...chat, response: response.content, convId: index, isRename: false, isShare: false, isOption: false };
                     });
 
                     setConvoArr(updatedConvoArr);
@@ -61,12 +59,8 @@ export const HandleApp = ({ children }) => {
 
         if (findHistory) {
             findHistory.convoArr = convoArr
-            console.log('preent')
-
         }
         else {
-            console.log('not')
-
             const newHistory = {
                 date: now,
                 convoArr,

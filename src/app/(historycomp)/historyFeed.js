@@ -34,6 +34,7 @@ const HistoryFeed = () => {
         {
             history && Object.entries(history).map((hist) => {
                 const [key, value] = hist;
+
                 return Array.isArray(value) && value.length > 0 && (
                     <HistoryDisplay
                         title={key}

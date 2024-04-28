@@ -217,7 +217,7 @@ export const HistoryContext = ({ children }) => {
 
     }
 
-    const handleMouseLeave = () => {
+    const handleInputMouseLeave = () => {
 
         let updateRename = localStorage.getItem('convHistory')
         if (!updateRename) {
@@ -241,9 +241,10 @@ export const HistoryContext = ({ children }) => {
         setUpdate(prev => !prev)
     }
 
+
     return (
         <HistoryStore.Provider
-            value={{ handleDelete, handleMouseLeave, handleClickRename, handleSubmitRename, handleInputChange, handleMore, handleOptionEvents, isHistoryUpDate, setUpdate }}>
+            value={{ handleDelete, handleInputMouseLeave, handleClickRename, handleSubmitRename, handleInputChange, handleMore, handleOptionEvents, isHistoryUpDate, setUpdate }}>
             {children}
         </HistoryStore.Provider>
     )
