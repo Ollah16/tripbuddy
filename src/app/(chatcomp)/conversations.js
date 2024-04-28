@@ -59,8 +59,8 @@ const Conversations = () => {
                             </span>
                             <div className="ml-[1.5rem] flex flex-col">
                                 <span className={`text-pretty break-words ${chat.isEdit ? 'hidden' : 'block'}`}>{chat.prompt}</span>
-                                <textarea onKeyUp={(e) => setEditPrompt(e.target.value)} value={chat.prompt}
-                                    className={`caret-black mb-2 text-wrap w-full h-auto rounded px-1 resize-none ${chat.isEdit ? 'block focus:border border-white' : 'hidden'} bg-transparent h-auto focus:outline-none w-full`}></textarea>
+                                <input onKeyUp={(e) => setEditPrompt(e.target.value)} defaultValue={chat.prompt}
+                                    className={`caret-black mb-2 text-wrap w-full h-auto rounded px-1 resize-none ${chat.isEdit ? 'block focus:border border-white' : 'hidden'} bg-transparent h-auto focus:outline-none w-full`} />
 
                                 <button className={`${chat.isEdit ? 'hidden' : 'block'} bg-transparent edit_Btn`}
                                     onClick={() => handleAmends({ amendType: 'edit', convId: chat.convId, prevPrompt: chat.prompt, chatResponse: chat.response })} ><MdOutlineEdit /></button>

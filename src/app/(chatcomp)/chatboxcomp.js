@@ -13,14 +13,14 @@ const ChatBoxComp = () => {
             <div className="border border-gray-500/50 rounded flex items-center gap-2 px-2" onKeyUp={handleConvo}>
                 <span className="flex justify-center cursor-pointer w-[5%]"><TiMicrophoneOutline className="text-xl" /></span>
                 <span className="flex justify-center cursor-pointer w-[5%]"><FaRegImage className="text-xl" /></span>
-                <textarea
+                <input
                     id="chatInput"
                     className="h-16 rounded w-[85%] align-middle inline break-words py-5 resize-none border-0 focus:outline-none px-1 bg-transparent"
                     placeholder="Ask me anything"
                     onInput={(e) => setPrompt(e.target.value)}
-                >
+                    value={prompt}
+                />
 
-                </textarea>
 
                 <button
                     onClick={() => handleConvo()}
