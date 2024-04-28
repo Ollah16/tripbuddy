@@ -7,7 +7,6 @@ import { useHistoryFeed } from "./historycontext";
 const OptionComp = ({ convId, historyId, isOption }) => {
 
     const options = [
-        { func: 'Share', icon: <FiShare /> },
         { func: 'Rename', icon: <FiEdit2 /> },
         { func: 'Delete chat', icon: <MdOutlineDelete />, color: 'text-red-500' }
     ]

@@ -204,8 +204,6 @@ export const HistoryContext = ({ children }) => {
 
     const handleOptionEvents = (functionType, convId, historyId) => {
         switch (functionType) {
-            case 'Share':
-                break;
             case 'Rename':
                 handleClickRename(convId, historyId)
                 break;
