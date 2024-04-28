@@ -4,16 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
 import { useAppStore } from "../appcontext";
 import styles from './chat.module.css'
+import { MdOutlineEdit } from "react-icons/md";
+import { useHistoryFeed } from "../(historycomp)/historycontext";
 
 const Conversations = () => {
 
     const { historyToggle, convoArr } = useAppStore()
+    const { handleAmends, setEditPrompt } = useHistoryFeed()
     const convRef = useRef()
     const [convScroll, setConvScroll] = useState(true)
+    const checkEdits = convoArr.length ? convoArr.find(any => any.isEdit) : null
 
     useEffect(() => {
+        if (checkEdits) return
         handleScrollDown()
-    }, [convoArr])
+    }, [convoArr, checkEdits])
 
     let prevScrollTop = convRef.current?.scrollTop
 
@@ -45,14 +50,28 @@ const Conversations = () => {
             <ul className="inline-block w-full text-gray-800 relative">
                 {convoArr.map((chat, index) => (
                     <li key={index} className="flex flex-col gap-2 my-2 w-full">
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-1 promptDiv">
                             <span className="flex items-center gap-2">
                                 <span className="border border-black rounded-full p-0">
                                     <PiUserDuotone className="text-xl text-gray-800" />
                                 </span>
                                 <span className="text-md font-bold">You</span>
                             </span>
-                            <span className="ml-[1.5rem] text-pretty break-words">{chat.prompt}</span>
+                            <div className="ml-[1.5rem] flex flex-col">
+                                <span className={`text-pretty break-words ${chat.isEdit ? 'hidden' : 'block'}`}>{chat.prompt}</span>
+                                <textarea onKeyUp={(e) => setEditPrompt(e.target.value)} value={chat.prompt}
+                                    className={`caret-black mb-2 text-wrap w-full h-auto rounded px-1 resize-none ${chat.isEdit ? 'block focus:border border-white' : 'hidden'} bg-transparent h-auto focus:outline-none w-full`}></textarea>
+
+                                <button className={`${chat.isEdit ? 'hidden' : 'block'} bg-transparent edit_Btn`}
+                                    onClick={() => handleAmends({ amendType: 'edit', convId: chat.convId, prevPrompt: chat.prompt, chatResponse: chat.response })} ><MdOutlineEdit /></button>
+
+                                <div className={`flex flex-col gap-2 ${chat.isEdit ? 'block' : 'hidden'}`}>
+                                    <div className="flex gap-2">
+                                        <button onClick={() => handleAmends({ amendType: 'save', convId: chat.convId, prevPrompt: chat.prompt, chatResponse: chat.response })} className="bg-green-800 transition-bg ease-in-out duration-100 hover:bg-green-800/90 p-1 rounded text-white">Save & Submit</button>
+                                        <button onClick={() => handleAmends({ amendType: 'cancel', convId: chat.convId, prevPrompt: chat.prompt, chatResponse: chat.response })} className="bg-transparent p-1 rounded  hover:bg-transparent/10 border border-black/70">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div className="flex flex-col gap-1">
                             <span className="flex items-center gap-2">

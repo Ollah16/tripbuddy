@@ -5,7 +5,7 @@ import { useAppStore } from "../appcontext";
 
 const ChatBoxComp = () => {
 
-    const { historyToggle, setPrompt, prompt, handleConvo } = useAppStore()
+    const { historyToggle, setPrompt, handleConvo, prompt } = useAppStore()
 
     return (
         <div className={`w-11/12  ${historyToggle ? 'md:w-8/12' : 'md:w-9/12'} overflow-hidden h-24`}>
@@ -13,13 +13,14 @@ const ChatBoxComp = () => {
             <div className="border border-gray-500/50 rounded flex items-center gap-2 px-2" onKeyUp={handleConvo}>
                 <span className="flex justify-center cursor-pointer w-[5%]"><TiMicrophoneOutline className="text-xl" /></span>
                 <span className="flex justify-center cursor-pointer w-[5%]"><FaRegImage className="text-xl" /></span>
-                <input
+                <textarea
                     id="chatInput"
-                    className="h-16 rounded w-[85%] break-words inline-block border-0 focus:outline-none px-1 bg-transparent"
+                    className="h-16 rounded w-[85%] align-middle inline break-words py-5 resize-none border-0 focus:outline-none px-1 bg-transparent"
                     placeholder="Ask me anything"
-                    value={prompt}
                     onInput={(e) => setPrompt(e.target.value)}
-                />
+                >
+
+                </textarea>
 
                 <button
                     onClick={() => handleConvo()}

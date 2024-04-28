@@ -48,4 +48,12 @@ body {
   .history:hover .optionBtn {
     opacity: 1;
   }
+
+  .edit_Btn {
+    opacity: 0;
+  }
+
+  .promptDiv:hover .edit_Btn {
+    opacity: 1;
+  }
 }

@@ -31,13 +31,15 @@ export const HandleApp = ({ children }) => {
 
             const newConvoArr = [...convoArr, initConv]
 
-            const content = `Remember, each response should be gentle and tailored as if you're chatting with a child on an adventure. Your role is to be their friendly AI travel companion, so begin each interaction with a comforting tone.
+            const content = `Remember, each response should be gentle and tailored as if you're chatting with a child on an adventure. Your role is to be their friendly AI travel companion, so begin each interaction with a comforting tone and ensure to add interesting emojis to conversations.
                 \n ${prompt}`;
 
             getResponse(content)
                 .then((response) => {
                     const updatedConvoArr = newConvoArr.map((chat, index) => {
-                        return { ...chat, response: response.content, convId: index, isRename: false, isShare: false, isOption: false };
+                        if (chat.response === '') {
+                            return { ...chat, response: response.content, convId: index, isEdit: false, isRename: false, isShare: false, isOption: false };
+                        } return chat
                     });
 
                     setConvoArr(updatedConvoArr);
@@ -121,7 +123,7 @@ export const HandleApp = ({ children }) => {
                 historyToggle, handleHisToggle, navExpandToggle, hanleNavToggle,
                 convoArr, handleConvo, handleHistory, handleNewConversation,
                 handleDeleteConverSation, handleFetchHistory, handleUpdateScreen,
-                prompt, setPrompt
+                setPrompt, setConvoArr, prompt
             }}>
             {children}
         </AppContext.Provider>
