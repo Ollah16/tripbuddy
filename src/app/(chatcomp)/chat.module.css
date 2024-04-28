@@ -29,6 +29,20 @@
 
 }
 
+.loading_animation {
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .conversation_box {
     max-height: calc(100vh - 19rem);
 }

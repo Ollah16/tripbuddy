@@ -8,6 +8,7 @@ export const HandleApp = ({ children }) => {
     const [historyToggle, handleHisToggle] = useState(false)
     const [navExpandToggle, hanleNavToggle] = useState(false)
     const [prompt, setPrompt] = useState('')
+    const [isPromptSent, setPromptSent] = useState()
 
     const now = new Date();
 
@@ -21,7 +22,7 @@ export const HandleApp = ({ children }) => {
     const handleConvo = (e) => {
 
         if ((e?.key === 'Enter' || !e) && prompt) {
-
+            handleSentPrompt(true)
             const initConv = {
                 prompt,
                 response: '',
@@ -41,7 +42,7 @@ export const HandleApp = ({ children }) => {
                             return { ...chat, response: response.content, convId: index, isEdit: false, isRename: false, isShare: false, isOption: false };
                         } return chat
                     });
-
+                    handleSentPrompt(false)
                     setConvoArr(updatedConvoArr);
                     setPrompt('');
                     handleHistory(updatedConvoArr);
@@ -51,6 +52,10 @@ export const HandleApp = ({ children }) => {
                 });
         }
     };
+
+    const handleSentPrompt = (res) => {
+        setPromptSent(res)
+    }
 
     const handleHistory = (convoArr) => {
 
@@ -123,7 +128,7 @@ export const HandleApp = ({ children }) => {
                 historyToggle, handleHisToggle, navExpandToggle, hanleNavToggle,
                 convoArr, handleConvo, handleHistory, handleNewConversation,
                 handleDeleteConverSation, handleFetchHistory, handleUpdateScreen,
-                setPrompt, setConvoArr, prompt
+                setPrompt, setConvoArr, prompt, handleSentPrompt, isPromptSent
             }}>
             {children}
         </AppContext.Provider>

@@ -2,10 +2,12 @@ import { BsSendFill } from "react-icons/bs";
 import { TiMicrophoneOutline } from "react-icons/ti";
 import { FaRegImage } from "react-icons/fa6";
 import { useAppStore } from "../appcontext";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import styles from './chat.module.css'
 
 const ChatBoxComp = () => {
 
-    const { historyToggle, setPrompt, handleConvo, prompt } = useAppStore()
+    const { historyToggle, setPrompt, handleConvo, prompt, handleSentPrompt, isPromptSent } = useAppStore()
 
     return (
         <div className={`w-11/12  ${historyToggle ? 'md:w-8/12' : 'md:w-9/12'} overflow-hidden h-24`}>
@@ -23,10 +25,11 @@ const ChatBoxComp = () => {
 
 
                 <button
-                    onClick={() => handleConvo()}
+                    onClick={() => { handleConvo(); handleSentPrompt(true) }}
                     className={`flex justify-center w-[5%] border-0 bg-transparent`} >
-                    <BsSendFill
-                        className={`text-xl text-black duration-200 ease-in-out hover:rotate-45 ${prompt ? 'rotate-45' : ''} transition-transform cursor-pointer animation`} />
+                    {isPromptSent && <AiOutlineLoading3Quarters className={`text-xl text-black ${styles.loading_animation}`} />}
+
+                    {!isPromptSent && <BsSendFill className={`text-xl text-black duration-200 ease-in-out hover:rotate-45 ${prompt ? 'rotate-45' : ''} transition-transform cursor-pointer animation`} />}
                 </button>
             </div>
         </div >

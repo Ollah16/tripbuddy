@@ -47,6 +47,7 @@ export const HistoryContext = ({ children }) => {
 
     }, [])
 
+
     const handleDelete = (convId, historyId) => {
         const storedHistory = localStorage.getItem('convHistory');
 
@@ -328,7 +329,10 @@ export const HistoryContext = ({ children }) => {
 
     return (
         <HistoryStore.Provider
-            value={{ setEditPrompt, handleAmends, handleDelete, handleInputMouseLeave, handleClickRename, handleSubmitRename, handleInputChange, handleMore, handleOptionEvents, isHistoryUpDate, setUpdate }}>
+            value={{
+                setEditPrompt, handleAmends, handleDelete, handleInputMouseLeave,
+                handleClickRename, handleSubmitRename, handleInputChange, handleMore, handleOptionEvents, isHistoryUpDate, setUpdate
+            }}>
             {children}
         </HistoryStore.Provider>
     )
