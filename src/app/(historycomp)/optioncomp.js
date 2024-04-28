@@ -54,7 +54,6 @@ const OptionComp = ({ convId, historyId, isOption }) => {
         setUpdate(prev => !prev);
     }
 
-
     return (
         <span ref={optionRef} className={`${isOption ? 'flex' : 'hidden'} flex-col gap-1 py-2 px-3 absolute right-0 bottom-[-120px] bg-black/90 z-50 rounded`}>
             {options.map((opt, index) => (

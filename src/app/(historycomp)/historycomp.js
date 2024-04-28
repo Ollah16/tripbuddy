@@ -1,7 +1,6 @@
 import { useAppStore } from "../appcontext";
 import HistoryFeed from "./historyFeed";
 import NewChat from "./newchat";
-import styles from './history.module.css'
 
 const HistoryExpanded = () => {
 
