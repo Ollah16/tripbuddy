@@ -7,6 +7,7 @@ import HistoryExpanded from "../(historycomp)/historycomp"
 import NavExpand from "../(navbar)/navexpand"
 import { useAppStore } from "../appcontext"
 import styles from './main.module.css'
+import HistoryToggle from "../(historycomp)/historytog"
 
 const Main = () => {
     const { historyToggle } = useAppStore()
@@ -17,6 +18,7 @@ const Main = () => {
             <IntroComp />
             <ChatComp />
         </div>
+        <HistoryToggle />
         <HistoryExpanded />
         <NavExpand />
     </section >)

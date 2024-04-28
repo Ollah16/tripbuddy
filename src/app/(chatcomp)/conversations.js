@@ -88,7 +88,7 @@ const Conversations = () => {
                 ))}
             </ul >
         </div>
-        <button onClick={() => handleScrollDown()} className={`${convScroll} rounded-full w-fit mx-auto p-2 absolute hover:bg-white/80 transition-color ease-in-out duration-200 delay-500 ${!convScroll ? `block` : 'hidden'} left-0 right-0 bottom-36 bg-white/70`}><FaAngleDown className="text-2xl text-black" /></button>
+        <button onClick={() => handleScrollDown()} className={`${convScroll} rounded-full w-fit mx-auto p-2 bottom-[10rem] absolute hover:bg-white/80 transition-color ease-in-out duration-200 delay-500 ${!convScroll ? `block` : 'hidden'} left-0 right-0 bottom-36 bg-white/70`}><FaAngleDown className="text-2xl text-black" /></button>
 
     </div >
     )

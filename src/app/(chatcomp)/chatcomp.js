@@ -13,42 +13,41 @@ const ChatComp = () => {
     const [xteristics, setXteristics] = useState({
 
         'sample prompts': [
-            "What's on your mind today? I'm here to help!",
-            "Tell me about your journey. I'm listening!",
-            "Need some company on your journey? Just say hi!",
-            "Feeling bored? Let's chat and pass the time together!",
-            `Ready for adventure? Let's explore together!`],
+            "What's on your mind today? I'm here to help! 🤔",
+            "Tell me about your journey. I'm listening! 🛤️",
+            "Need some company on your journey? Just say hi! 👋",
+            "Feeling bored? Let's chat and pass the time together! 💬",
+            `Ready for adventure? Let's explore together! 🚀`],
 
         'functionalities': [
             {
                 title: 'Conversation',
-                description: 'Engage users in natural language dialogues.'
+                description: 'Engage users in natural language dialogues. 💬'
             },
             {
                 title: 'Information',
-                description: ' Provide answers to questions and facts on various topics.'
+                description: 'Provide answers to questions and facts on various topics. 📚'
             },
             {
                 title: 'Games',
-                description: 'Offer interactive quizzes and games for entertainment.'
+                description: 'Offer interactive quizzes and games for entertainment.🎮'
             },
             {
                 title: 'Storytelling',
-                description: ' Narrate stories or adventures to captivate users.'
+                description: ' Narrate stories or adventures to captivate users.📖'
             },
             {
                 title: ' Navigation',
-                description: ' Assist users with directions and travel tips.'
+                description: ' Assist users with directions and travel tips.🧭'
             }
         ],
 
         'fun facts': [
-            'The Great Wall of China could circle the Earth eight times!',
-            `The Eiffel Tower was supposed to be temporary!`,
-            `Australia's Great Barrier Reef is visible from space!`,
-            `The Amazon Rainforest is called "The Lungs of the Earth"!`,
-            `Penguins can dive 1,850 feet underwater!`],
-
+            'The Great Wall of China could circle the Earth eight times! 🗣️',
+            `The Eiffel Tower was supposed to be temporary! 🧠`,
+            `Australia's Great Barrier Reef is visible from space! 🎲`,
+            `The Amazon Rainforest is called "The Lungs of the Earth! 📚🔥`,
+            `Penguins can dive 1,850 feet underwater!🧭`],
 
     })
 

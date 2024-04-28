@@ -13,11 +13,11 @@ const XteristicsComp = ({ title, value }) => {
 
 
                 func.title ?
-                    <li key={index} className={`px-5 my-1 lg:text-sm  text-xs text-wrap text-start font-bold`}>
-                        <span> <b>{func.title}</b>: {func.description}</span>
+                    <li key={index} className={`px-2 my-1 lg:text-sm text-xs text-wrap text-start`}>
+                        <span><b>{func.title}</b></span>: <span>{func.description}</span>
                     </li>
                     :
-                    <li className="px-5 my-1 lg:text-sm text-xs text-black" key={index}>{func}</li>
+                    <li className="px-3 my-1 lg:text-sm text-xs text-black" key={index}>{func}</li>
 
 
             ))}

@@ -8,8 +8,7 @@ import styles from './history.module.css'
 const HistoryFeed = () => {
 
     const [history, setHistory] = useState();
-    const { convoArr, historyToggle, navExpandToggle } = useAppStore()
-    const [isBigScreen, setBigScreen] = useState()
+    const { convoArr } = useAppStore()
     const { isHistoryUpDate } = useHistoryFeed()
 
     useEffect(() => {
@@ -18,19 +17,8 @@ const HistoryFeed = () => {
 
     }, [convoArr, isHistoryUpDate]);
 
-    useEffect(() => {
-        const handleScreen = () => {
-            if (window.innerWidth > 768) {
-                return setBigScreen(true)
-            }
-            return setBigScreen(false)
-        }
-        handleScreen()
 
-    }, [navExpandToggle, historyToggle])
-
-
-    return (<div className={`overflow-y-auto ${!isBigScreen ? styles.history_height : styles.history_heightBigScreen}`}>
+    return (<div className={`overflow-y-auto ${styles.history_height}`}>
         {
             history && Object.entries(history).map((hist) => {
                 const [key, value] = hist;
