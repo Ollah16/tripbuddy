@@ -32,9 +32,9 @@ export const HandleApp = ({ children }) => {
 
             const newConvoArr = [...convoArr, initConv]
 
+            const request = { newchat: newConvoArr }
 
-
-            getResponse(newConvoArr)
+            getResponse(request)
                 .then((response) => {
                     const updatedConvoArr = newConvoArr.map((chat, index) => {
                         if (chat.response === '') {

@@ -9,9 +9,10 @@ const HistoryStore = createContext()
 
 export const HistoryContext = ({ children }) => {
 
-    const { handleDeleteConverSation, handleUpdateScreen, convoArr, setConvoArr } = useAppStore()
+    const { handleDeleteConverSation, handleUpdateScreen, convoArr, setConvoArr, handleSentPrompt } = useAppStore()
     const [isHistoryUpDate, setUpdate] = useState(false)
     const [newPrompt, setEditPrompt] = useState('')
+    const [checkEdits, setEdits] = useState()
 
     useEffect(() => {
 
@@ -47,6 +48,10 @@ export const HistoryContext = ({ children }) => {
 
     }, [])
 
+    useEffect(() => {
+        const checkEdits = convoArr.find(any => any.isEdit)
+        setEdits(checkEdits)
+    }, [])
 
     const handleDelete = (convId, historyId) => {
         const storedHistory = localStorage.getItem('convHistory');
@@ -259,33 +264,32 @@ export const HistoryContext = ({ children }) => {
                     if (convId === chat.convId && prevPrompt === chat.prompt && chat.response === chatResponse) {
                         return { ...chat, isEdit: true };
                     }
-                    return chat
+                    return { ...chat, isEdit: false };
                 });
 
                 break;
 
             case 'save':
                 if (!newPrompt) return
-                updatePrompt = updatePrompt.map((chat) => {
-                    if (convId == chat.convId && prevPrompt == chat.prompt && chat.response == chatResponse) {
+                handleSentPrompt(true)
 
-                        return { ...chat, prompt: newPrompt };
-                    }
-                    return chat
-                });
-
-                getResponse(updatePrompt)
+                const newEdit = [{ role: 'user', content: `Remember, each response should be gentle and tailored as if you're chatting with a child on an adventure. Your role is to be their friendly AI travel companion, so begin each interaction with a comforting tone and ensure to add interesting emojis to conversations. ${newPrompt}` }]
+                const request = { newContent: newEdit }
+                getResponse(request)
                     .then((response) => {
                         newResponse = response.content
-                        updatePrompt = updatePrompt.map((chat) => {
 
-                            if (convId == chat.convId && chat.isEdit && chat.response == chatResponse) {
-                                return { ...chat, prompt: newPrompt, response: response.content, isEdit: false };
+                        console.log(response)
+                        updatePrompt = updatePrompt.map((chat) => {
+                            if (convId == chat.convId && chat.isEdit) {
+                                return { ...chat, prompt: newPrompt, response: newResponse, isEdit: false };
                             }
                             return chat
                         });
+                        setEdits(false)
                         setConvoArr(updatePrompt);
                         updateLocalHistory()
+                        handleSentPrompt(false)
                     })
                     .catch((err) => {
                         console.error('Error fetching response:', err);
@@ -338,7 +342,7 @@ export const HistoryContext = ({ children }) => {
     return (
         <HistoryStore.Provider
             value={{
-                setEditPrompt, handleAmends, handleDelete, handleInputMouseLeave,
+                setEditPrompt, handleAmends, handleDelete, handleInputMouseLeave, checkEdits,
                 handleClickRename, handleSubmitRename, handleInputChange, handleMore, handleOptionEvents, isHistoryUpDate, setUpdate
             }}>
             {children}

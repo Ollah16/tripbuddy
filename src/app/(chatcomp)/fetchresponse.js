@@ -1,9 +1,9 @@
 'use server'
 import OpenAI from "openai";
 
-export const getResponse = async (convoArr) => {
+export const getResponse = async (request) => {
 
-    const newArray = convoArr.map(element => {
+    const newArray = request.newChat ? convoArr.map(element => {
         let content = element.prompt
         delete element.prompt
         delete element.response
@@ -14,13 +14,15 @@ export const getResponse = async (convoArr) => {
         delete element.isRename
         delete element.isShare
         delete element.isOption
+        delete element.oldResponse
 
         return {
             ...element,
             role: 'user',
             content: `Remember, each response should be gentle and tailored as if you're chatting with a child on an adventure. Your role is to be their friendly AI travel companion, so begin each interaction with a comforting tone and ensure to add interesting emojis to conversations. ${content}`
         };
-    });
+    }) : request.newContent
+
 
     try {
         const openai = new OpenAI({

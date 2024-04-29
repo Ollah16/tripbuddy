@@ -10,13 +10,12 @@ import { useHistoryFeed } from "../(historycomp)/historycontext";
 const Conversations = () => {
 
     const { historyToggle, convoArr } = useAppStore()
-    const { handleAmends, setEditPrompt } = useHistoryFeed()
+    const { handleAmends, setEditPrompt, checkEdits } = useHistoryFeed()
     const convRef = useRef()
     const [convScroll, setConvScroll] = useState(true)
-    const checkEdits = convoArr.length ? convoArr.find(any => any.isEdit) : null
 
     useEffect(() => {
-        if (checkEdits) return
+        if (!checkEdits) return
         handleScrollDown()
     }, [convoArr, checkEdits])
 
