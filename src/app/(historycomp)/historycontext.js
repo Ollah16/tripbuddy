@@ -250,6 +250,8 @@ export const HistoryContext = ({ children }) => {
         let convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
         let newResponse;
 
+
+
         switch (amendType) {
             case 'edit':
                 updatePrompt = updatePrompt.map((chat) => {
@@ -264,18 +266,24 @@ export const HistoryContext = ({ children }) => {
 
             case 'save':
                 if (!newPrompt) return
-                getResponse(newPrompt)
+                updatePrompt = updatePrompt.map((chat) => {
+                    if (convId == chat.convId && prevPrompt == chat.prompt && chat.response == chatResponse) {
+
+                        return { ...chat, prompt: newPrompt };
+                    }
+                    return chat
+                });
+
+                getResponse(updatePrompt)
                     .then((response) => {
                         newResponse = response.content
-
                         updatePrompt = updatePrompt.map((chat) => {
-                            if (convId == chat.convId && prevPrompt == chat.prompt && chat.response == chatResponse) {
 
+                            if (convId == chat.convId && chat.isEdit && chat.response == chatResponse) {
                                 return { ...chat, prompt: newPrompt, response: response.content, isEdit: false };
                             }
                             return chat
                         });
-
                         setConvoArr(updatePrompt);
                         updateLocalHistory()
                     })
