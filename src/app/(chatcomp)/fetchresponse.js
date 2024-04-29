@@ -19,11 +19,12 @@ export const getResponse = async (request) => {
             return {
                 ...element,
                 role: 'user',
-                content: `Remember, each response should be gentle and tailored as if you're chatting with a child on an adventure. Your role is to be their friendly AI travel companion, so begin each interaction with a comforting tone and ensure to add interesting emojis to conversations. ${content}`
+                content:
+                    `Remember, each response should be gentle and tailored as if you're chatting with a child on an adventure. Your role is to be their friendly AI travel companion, so each and every interaction should be in a comforting tone and ensure to add interesting emojis to conversations. 
+                """${content}"""`
             };
         })
         : newContent
-
 
     try {
         const openai = new OpenAI({
