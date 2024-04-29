@@ -32,7 +32,7 @@ export const HandleApp = ({ children }) => {
 
             const newConvoArr = [...convoArr, initConv]
 
-            const request = { newchat: newConvoArr }
+            const request = { newChat: newConvoArr }
 
             getResponse(request)
                 .then((response) => {
