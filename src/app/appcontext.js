@@ -9,6 +9,7 @@ export const HandleApp = ({ children }) => {
     const [navExpandToggle, hanleNavToggle] = useState(false)
     const [prompt, setPrompt] = useState('')
     const [isPromptSent, setPromptSent] = useState()
+    const [checkEdits, setEdits] = useState()
 
     const now = new Date();
 
@@ -18,11 +19,16 @@ export const HandleApp = ({ children }) => {
         handleIncHistory()
     }, [])
 
+    useEffect(() => {
+        const checkEdits = convoArr.find(any => any.isEdit)
+        setEdits(checkEdits)
+    }, [])
+
     const handleConvo = (e) => {
 
         if ((e?.key === 'Enter' || !e) && prompt) {
             handleSentPrompt(true)
-
+            setEdits(true)
             const initConv = {
                 prompt,
                 response: '',
@@ -127,7 +133,7 @@ export const HandleApp = ({ children }) => {
                 historyToggle, handleHisToggle, navExpandToggle, hanleNavToggle,
                 convoArr, handleConvo, handleHistory, handleNewConversation,
                 handleDeleteConverSation, handleFetchHistory, handleUpdateScreen,
-                setPrompt, setConvoArr, prompt, handleSentPrompt, isPromptSent
+                setPrompt, setConvoArr, prompt, handleSentPrompt, isPromptSent, checkEdits, setEdits
             }}>
             {children}
         </AppContext.Provider>

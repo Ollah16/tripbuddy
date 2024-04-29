@@ -9,8 +9,8 @@ import { useHistoryFeed } from "../(historycomp)/historycontext";
 
 const Conversations = () => {
 
-    const { historyToggle, convoArr } = useAppStore()
-    const { handleAmends, setEditPrompt, checkEdits } = useHistoryFeed()
+    const { historyToggle, convoArr, checkEdits } = useAppStore()
+    const { handleAmends, setEditPrompt } = useHistoryFeed()
     const convRef = useRef()
     const [convScroll, setConvScroll] = useState(true)
 

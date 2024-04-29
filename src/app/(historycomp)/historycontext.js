@@ -9,10 +9,9 @@ const HistoryStore = createContext()
 
 export const HistoryContext = ({ children }) => {
 
-    const { handleDeleteConverSation, handleUpdateScreen, convoArr, setConvoArr, handleSentPrompt } = useAppStore()
+    const { handleDeleteConverSation, handleUpdateScreen, convoArr, setConvoArr, handleSentPrompt, setEdits } = useAppStore()
     const [isHistoryUpDate, setUpdate] = useState(false)
     const [newPrompt, setEditPrompt] = useState('')
-    const [checkEdits, setEdits] = useState()
 
     useEffect(() => {
 
@@ -46,11 +45,6 @@ export const HistoryContext = ({ children }) => {
 
         updateRename()
 
-    }, [])
-
-    useEffect(() => {
-        const checkEdits = convoArr.find(any => any.isEdit)
-        setEdits(checkEdits)
     }, [])
 
     const handleDelete = (convId, historyId) => {
@@ -278,8 +272,6 @@ export const HistoryContext = ({ children }) => {
                 getResponse(request)
                     .then((response) => {
                         newResponse = response.content
-
-                        console.log(response)
                         updatePrompt = updatePrompt.map((chat) => {
                             if (convId == chat.convId && chat.isEdit) {
                                 return { ...chat, prompt: newPrompt, response: newResponse, isEdit: false };
@@ -342,7 +334,7 @@ export const HistoryContext = ({ children }) => {
     return (
         <HistoryStore.Provider
             value={{
-                setEditPrompt, handleAmends, handleDelete, handleInputMouseLeave, checkEdits,
+                setEditPrompt, handleAmends, handleDelete, handleInputMouseLeave,
                 handleClickRename, handleSubmitRename, handleInputChange, handleMore, handleOptionEvents, isHistoryUpDate, setUpdate
             }}>
             {children}

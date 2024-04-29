@@ -4,7 +4,6 @@ import OpenAI from "openai";
 export const getResponse = async (request) => {
 
     const { newChat, newContent } = request
-
     const newArray = newChat ?
         newChat.map(element => {
             let content = element.prompt
@@ -12,6 +11,10 @@ export const getResponse = async (request) => {
             delete element.response
             delete element.convId
             delete element.date
+            delete element.isEdit
+            delete element.isOption
+            delete element.isRename
+            delete element.isShare
 
             return {
                 ...element,
