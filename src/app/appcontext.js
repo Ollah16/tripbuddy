@@ -18,11 +18,11 @@ export const HandleApp = ({ children }) => {
         handleIncHistory()
     }, [])
 
-
     const handleConvo = (e) => {
 
         if ((e?.key === 'Enter' || !e) && prompt) {
             handleSentPrompt(true)
+
             const initConv = {
                 prompt,
                 response: '',
@@ -32,10 +32,9 @@ export const HandleApp = ({ children }) => {
 
             const newConvoArr = [...convoArr, initConv]
 
-            const content = `Remember, each response should be gentle and tailored as if you're chatting with a child on an adventure. Your role is to be their friendly AI travel companion, so begin each interaction with a comforting tone and ensure to add interesting emojis to conversations.
-                \n ${prompt}`;
 
-            getResponse(content)
+
+            getResponse(newConvoArr)
                 .then((response) => {
                     const updatedConvoArr = newConvoArr.map((chat, index) => {
                         if (chat.response === '') {

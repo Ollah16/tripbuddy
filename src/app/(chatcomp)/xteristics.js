@@ -11,7 +11,6 @@ const XteristicsComp = ({ title, value }) => {
             <li className="mx-auto font-bold md:text-lg text-md py-2">{title.charAt(0).toUpperCase() + title.slice(1)}</li>
             {value.map((func, index) => (
 
-
                 func.title ?
                     <li key={index} className={`px-2 my-1 lg:text-sm text-xs text-wrap text-start`}>
                         <span><b>{func.title}</b></span>: <span>{func.description}</span>
