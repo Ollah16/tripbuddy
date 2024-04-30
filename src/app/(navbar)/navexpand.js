@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { useAppStore } from "../appcontext"
 import HistoryFeed from "../(historycomp)/historyFeed"
 import NewChat from "../(historycomp)/newchat"

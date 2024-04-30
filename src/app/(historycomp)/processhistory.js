@@ -7,34 +7,33 @@ export const processedHistory = () => {
     const yesterday = [];
     const previous7Days = [];
     const previous30Days = [];
-    const previous60Days = [];
     const older = [];
 
     getHistory.forEach(hist => {
         const histDate = new Date(hist.date);
-        const diffDays = (now - histDate) / (1000 * 3600 * 24);
 
-        if (histDate.getDate() === now.getDate() && histDate.getMonth() === now.getMonth() && histDate.getFullYear() === now.getFullYear()) {
+        const diffDays = Math.floor((now - histDate) / (1000 * 3600 * 24));
+
+        if (diffDays === 0) {
             today.push(hist);
-        } else if (diffDays < 2) {
+        } else if (diffDays === 1) {
             yesterday.push(hist);
-        } else if (diffDays < 8) {
+        } else if (diffDays > 1) {
             previous7Days.push(hist);
-        } else if (diffDays < 31) {
+        } else if (diffDays < 30 && diffDays > 1) {
             previous30Days.push(hist);
-        } else if (diffDays < 61) {
-            previous60Days.push(hist);
         } else {
             older.push(hist);
         }
+
     });
+
 
     return {
         today,
         yesterday,
         previous7Days,
         previous30Days,
-        previous60Days,
         older
     }
 }
