@@ -34,7 +34,8 @@ export const HistoryContext = ({ children }) => {
                     convoArr: hist.convoArr.map(conv => ({
                         ...conv,
                         isRename: false,
-                        isOption: false
+                        isOption: false,
+                        isEdit: false
                     }))
                 };
             });
