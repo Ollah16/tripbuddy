@@ -22,7 +22,8 @@ export const HandleApp = ({ children }) => {
     useEffect(() => {
         const getMostRecentConv = localStorage.getItem('convHistory')
         const convHistory = getMostRecentConv ? JSON.parse(getMostRecentConv) : []
-        setConvoArr(convHistory[convHistory.length - 1].convoArr)
+        const openConv = convHistory.find(hist => hist.isOpen)
+        setConvoArr(openConv ? openConv.convoArr : [])
         setEdits(true)
     }, [])
 
@@ -78,7 +79,8 @@ export const HandleApp = ({ children }) => {
             const newHistory = {
                 date: now,
                 convoArr,
-                historyId
+                historyId,
+                isOpen: true
             }
             convHistory.push(newHistory)
         }
@@ -90,7 +92,20 @@ export const HandleApp = ({ children }) => {
     const handleNewConversation = () => {
         setConvoArr([])
         handleHisToggle(false)
-        if (!localStorage.getItem('convHistory')) return
+        const storedConvHistory = localStorage.getItem('convHistory');
+        const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
+
+        if (!storedConvHistory) return
+
+        const closeConv = convHistory.map((conv) => {
+            return {
+                ...conv,
+                isOpen: false
+            }
+        })
+
+        localStorage.setItem('convHistory', JSON.stringify(closeConv));
+
         hanleNavToggle(false)
         handleIncHistory()
     };
@@ -111,9 +126,21 @@ export const HandleApp = ({ children }) => {
         const storedConvHistory = localStorage.getItem('convHistory');
         const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
         const findHistory = convHistory.find(conv => conv.historyId === historyId)
+
+
         setConvoArr(findHistory.convoArr)
         hanleNavToggle(false)
         setEdits(true)
+
+        const newConvHistory = convHistory.map(conv => {
+            return {
+                ...conv,
+                isOpen: conv.historyId === historyId
+            }
+        })
+
+        localStorage.setItem('convHistory', JSON.stringify(newConvHistory))
+
     }
 
     const handleUpdateScreen = (convId, prompt) => {

@@ -18,9 +18,9 @@ export const processedHistory = () => {
             today.push(hist);
         } else if (diffDays === 1) {
             yesterday.push(hist);
-        } else if (diffDays > 1) {
+        } else if (diffDays > 1 && diffDays <= 8) {
             previous7Days.push(hist);
-        } else if (diffDays < 30 && diffDays > 1) {
+        } else if (diffDays >= 8 && diffDays <= 30) {
             previous30Days.push(hist);
         } else {
             older.push(hist);
