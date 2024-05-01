@@ -20,8 +20,10 @@ export const HandleApp = ({ children }) => {
     }, [])
 
     useEffect(() => {
-        const checkEdits = convoArr.find(any => any.isEdit)
-        setEdits(checkEdits)
+        const getMostRecentConv = localStorage.getItem('convHistory')
+        const convHistory = getMostRecentConv ? JSON.parse(getMostRecentConv) : []
+        setConvoArr(convHistory[convHistory.length - 1].convoArr)
+        setEdits(true)
     }, [])
 
     const handleConvo = (e) => {
@@ -111,6 +113,7 @@ export const HandleApp = ({ children }) => {
         const findHistory = convHistory.find(conv => conv.historyId === historyId)
         setConvoArr(findHistory.convoArr)
         hanleNavToggle(false)
+        setEdits(true)
     }
 
     const handleUpdateScreen = (convId, prompt) => {

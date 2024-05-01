@@ -249,10 +249,9 @@ export const HistoryContext = ({ children }) => {
         let convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
         let newResponse;
 
-
-
         switch (amendType) {
             case 'edit':
+                setEdits(false)
                 updatePrompt = updatePrompt.map((chat) => {
 
                     if (convId === chat.convId && prevPrompt === chat.prompt && chat.response === chatResponse) {
@@ -281,6 +280,7 @@ export const HistoryContext = ({ children }) => {
                             }
                             return chat
                         });
+
                         setEdits(false)
                         setConvoArr(updatePrompt);
                         updateLocalHistory()
@@ -339,7 +339,8 @@ export const HistoryContext = ({ children }) => {
         <HistoryStore.Provider
             value={{
                 setEditPrompt, handleAmends, handleDelete, handleInputMouseLeave,
-                handleClickRename, handleSubmitRename, handleInputChange, handleMore, handleOptionEvents, isHistoryUpDate, setUpdate
+                handleClickRename, handleSubmitRename, handleInputChange, handleMore,
+                handleOptionEvents, isHistoryUpDate, setUpdate
             }}>
             {children}
         </HistoryStore.Provider>

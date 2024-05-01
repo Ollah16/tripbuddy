@@ -39,7 +39,7 @@ const Conversations = () => {
         }
     }, [])
 
-    const handleScrollDown = () => convRef.current?.scrollTo({
+    const handleScrollDown = () => convRef.current.scrollTo({
         top: convRef.current.scrollHeight,
         behavior: 'smooth'
     });
