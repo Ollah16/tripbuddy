@@ -19,14 +19,8 @@ const Conversations = () => {
         handleScrollDown()
     }, [convoArr, checkEdits])
 
-    let prevScrollTop = convRef.current?.scrollTop
-
     useEffect(() => {
         convRef.current?.addEventListener('scroll', (e) => {
-            const currScrollTop = convRef.current.scrollTop
-            if (prevScrollTop < currScrollTop) {
-                return prevScrollTop = currScrollTop
-            }
             const isFullyScrolled = convRef.current.scrollTop === (convRef.current.scrollHeight - convRef.current.clientHeight)
             setConvScroll(isFullyScrolled)
 
