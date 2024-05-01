@@ -28,7 +28,6 @@ export const processedHistory = () => {
 
     });
 
-
     return {
         today,
         yesterday,

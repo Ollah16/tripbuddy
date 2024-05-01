@@ -20,7 +20,7 @@ const Conversations = () => {
     }, [convoArr, checkEdits])
 
     useEffect(() => {
-        convRef.current?.addEventListener('scroll', (e) => {
+        convRef.current?.addEventListener('scroll', () => {
             const isFullyScrolled = convRef.current.scrollTop === (convRef.current.scrollHeight - convRef.current.clientHeight)
             setConvScroll(isFullyScrolled)
 
