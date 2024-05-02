@@ -234,7 +234,7 @@ export const HandleApp = ({ children }) => {
         handleNavToggle(false);
 
         // handle no scroll with edits as true
-        setEdits(true);
+        setEdits(false);
 
         // Mark the fetched history as open and update others as not open.
         const newConvHistory = convHistory.map(conv => ({
