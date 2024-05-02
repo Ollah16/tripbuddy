@@ -12,15 +12,15 @@ export const processedHistory = () => {
     getHistory.forEach(hist => {
         const histDate = new Date(hist.date);
 
-        const diffDays = Math.floor((now - histDate) / (1000 * 3600 * 24));
-
-        if (diffDays === 0) {
+        const diffDays = (now - histDate) / (1000 * 3600 * 24)
+        console.log(diffDays)
+        if (histDate.getDate() === now.getDate() && histDate.getMonth() === now.getMonth()) {
             today.push(hist);
-        } else if (diffDays === 1) {
+        } else if (diffDays > 0 && diffDays < 2) {
             yesterday.push(hist);
-        } else if (diffDays > 1 && diffDays <= 8) {
+        } else if (diffDays > 1 && diffDays < 8) {
             previous7Days.push(hist);
-        } else if (diffDays >= 8 && diffDays <= 30) {
+        } else if (diffDays > 8 && diffDays < 30) {
             previous30Days.push(hist);
         } else {
             older.push(hist);
