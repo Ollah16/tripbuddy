@@ -12,7 +12,13 @@ const HistoryFeed = () => {
     const { isHistoryUpDate } = useHistoryFeed()
 
     useEffect(() => {
+
+        // fetch history for display
+
         const getProcessedHistory = processedHistory()
+
+        // set fetched history
+
         setHistory(getProcessedHistory)
 
     }, [convoArr, isHistoryUpDate]);

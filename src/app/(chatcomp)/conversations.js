@@ -1,6 +1,8 @@
+'use client'
+
 import { PiUserDuotone } from "react-icons/pi";
 import { MdOutlineWebhook } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
 import { useAppStore } from "../appcontext";
 import styles from './chat.module.css'
@@ -9,31 +11,55 @@ import { useHistoryFeed } from "../(historycomp)/historycontext";
 
 const Conversations = () => {
 
-    const { historyToggle, convoArr, checkEdits } = useAppStore()
+    const { historyToggle, convoArr, isConvEdits } = useAppStore()
+
     const { handleAmends, setEditPrompt } = useHistoryFeed()
+
     const convRef = useRef()
+
+    // update if screen is fully loaded to remove scroll btn
+
     const [convScroll, setConvScroll] = useState(true)
 
     useEffect(() => {
-        if (!checkEdits) return
+        // monitor any edits on the screen and hinder scroll
+
+        if (isConvEdits) return
+
         handleScrollDown()
-    }, [convoArr, checkEdits])
+
+    }, [convoArr, isConvEdits])
+
 
     useEffect(() => {
-        convRef.current?.addEventListener('scroll', () => {
-            const isFullyScrolled = convRef.current.scrollTop === (convRef.current.scrollHeight - convRef.current.clientHeight)
-            setConvScroll(isFullyScrolled)
 
-        })
+        // Define a stable scroll event handler
+
+        const handleScroll = () => {
+            if (convRef.current) {
+                const isFullyScrolled = convRef.current.scrollTop + convRef.current.clientHeight === convRef.current.scrollHeight;
+                setConvScroll(isFullyScrolled);
+            }
+        };
+
+        // Attach the scroll event listener if the element exists.
+
+        const element = convRef.current;
+        if (element) {
+            element.addEventListener('scroll', handleScroll);
+        }
+
+        // Return a cleanup function to remove the event listener when the component unmounts or the dependencies change.
 
         return () => {
-            convRef.current?.removeEventListener('scroll', () => {
-                setConvScroll(isFullyScrolled)
-            })
-        }
+            if (element) {
+                element.removeEventListener('scroll', handleScroll);
+            }
+        };
     }, [])
 
     const handleScrollDown = () => convRef.current.scrollTo({
+        // scroll down the conversation box when theres overflow
         top: convRef.current.scrollHeight,
         behavior: 'smooth'
     });

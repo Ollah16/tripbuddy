@@ -8,9 +8,11 @@ import styles from './chat.module.css'
 const ChatComp = () => {
 
 
-    const { historyToggle, handleHisToggle, convoArr } = useAppStore()
+    const { historyToggle, handleHisToggle, convoArr, isOpenConv } = useAppStore()
 
-    const [xteristics, setXteristics] = useState({
+    // characteristics of the ai journey buddy 
+
+    const xteristics = {
 
         'sample prompts': [
             "What's on your mind today? I'm here to help! 🤔",
@@ -49,9 +51,11 @@ const ChatComp = () => {
             `The Amazon Rainforest is called "The Lungs of the Earth! 📚🔥`,
             `Penguins can dive 1,850 feet underwater!🧭`],
 
-    })
+    }
 
     useEffect(() => {
+
+        // monitor with event listener
 
         window.addEventListener('resize', handleScreen)
 
@@ -59,6 +63,8 @@ const ChatComp = () => {
     }, [])
 
     const handleScreen = () => {
+        // close history tab when screen is below medium
+
         if (window.innerWidth < 768) {
             handleHisToggle(false)
         }
@@ -68,7 +74,7 @@ const ChatComp = () => {
         <div className="flex flex-col items-center justify-between gap-10 chatcomp relative" >
             <Conversations convoArr={convoArr} />
 
-            <div className={`transition-opacity duration-200 py-5 relative overflow-y-auto ease-in-out ${styles.conversation_box} ${convoArr.length ? 'hidden' : 'flex'} gap-5 items-center w-11/12 md:w-8/12 mx-auto  
+            <div className={`transition-opacity duration-200 py-5 relative overflow-y-auto ease-in-out ${styles.conversation_box} ${convoArr.length && isOpenConv ? 'hidden' : 'flex'} gap-5 items-center w-11/12 md:w-8/12 mx-auto  
             ${historyToggle ? 'md:flex-col lg:flex-row px-5' : 'flex-col sm:flex-row md:flex-row'}`}>
 
                 {Object.entries(xteristics).map(([key, value]) => {

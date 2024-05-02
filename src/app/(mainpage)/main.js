@@ -8,6 +8,7 @@ import NavExpand from "../(navbar)/navexpand"
 import { useAppStore } from "../appcontext"
 import styles from './main.module.css'
 import HistoryToggle from "../(historycomp)/historytog"
+import { useEffect } from "react"
 
 const Main = () => {
     const { historyToggle } = useAppStore()

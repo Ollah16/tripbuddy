@@ -1,4 +1,9 @@
+
 export const processedHistory = () => {
+    // Categorize historical entries based on time periods
+
+    // extract history from localStorage
+
     const storedHistory = localStorage.getItem('convHistory');
     const getHistory = storedHistory ? JSON.parse(storedHistory) : [];
     const now = new Date();
@@ -12,8 +17,10 @@ export const processedHistory = () => {
     getHistory.forEach(hist => {
         const histDate = new Date(hist.date);
 
+        // categorize according to specified periods
+
         const diffDays = (now - histDate) / (1000 * 3600 * 24)
-        console.log(diffDays)
+
         if (histDate.getDate() === now.getDate() && histDate.getMonth() === now.getMonth()) {
             today.push(hist);
         } else if (diffDays > 0 && diffDays < 2) {

@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
-import { FiShare } from "react-icons/fi";
 import { FiEdit2 } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
 import { useHistoryFeed } from "./historycontext";
 
 const OptionComp = ({ convId, historyId, isOption }) => {
+
+    // options list
 
     const options = [
         { func: 'Rename', icon: <FiEdit2 /> },
@@ -13,9 +14,13 @@ const OptionComp = ({ convId, historyId, isOption }) => {
 
     const { handleOptionEvents, setUpdate } = useHistoryFeed()
 
+    // options reference
+
     const optionRef = useRef()
 
     useEffect(() => {
+        // monitor dropdown options when the mouse cursor leaves the area
+
         optionRef.current?.addEventListener('mouseleave', handleMouseLeave)
 
         return () => {
@@ -24,11 +29,21 @@ const OptionComp = ({ convId, historyId, isOption }) => {
 
     }, [])
 
+
+
     const handleMouseLeave = () => {
+        // Close dropdown options when the mouse cursor leaves the area
+
+
+        // extract history from localStorage
+
         const storedHistory = localStorage.getItem('convHistory');
+
         if (!storedHistory) {
             console.error('No convHistory found in localStorage.');
         }
+
+        // parse localstorage
 
         const historyArr = JSON.parse(storedHistory);
 
@@ -36,6 +51,8 @@ const OptionComp = ({ convId, historyId, isOption }) => {
             console.error('Invalid convHistory format.');
             return
         }
+
+        // update history for localstorage
 
         const updateHistory = historyArr.map(hist => {
 
@@ -49,6 +66,8 @@ const OptionComp = ({ convId, historyId, isOption }) => {
         });
 
         localStorage.setItem('convHistory', JSON.stringify(updateHistory));
+
+        // update any changes in the history
 
         setUpdate(prev => !prev);
     }
