@@ -21,6 +21,7 @@ const HistoryDisplay = ({
             {history.sort((a, b) => new Date(b.date) - new Date(a.date)).map((hist) => {
 
                 return hist.convoArr.slice(0, 1).sort((a, b) => b.convId - a.convId).map((conv, index) => {
+
                     return (
                         <li
                             className={`relative over histLi history text-md history flex py-[0.5px] ml-[-0.25rem] px-1 rounded items-center justify-between cursor-pointer hover:bg-[#e7e9ee]/10 transition-colors duration-200 ease-in-out`} key={index}>

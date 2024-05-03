@@ -26,7 +26,7 @@ export const HandleApp = ({ children }) => {
 
     const [isConvEdits, setEdits] = useState()
 
-    const [isHistoryConv, setHistoryConv] = useState({})
+    const [isHistoryConv, setHistoryConv] = useState(false)
     // conversation array
 
     const [convoArr, setConvoArr] = useState([])
@@ -136,6 +136,7 @@ export const HandleApp = ({ children }) => {
         if (findHistory) {
             // Update the existing history record if found.
             findHistory.convoArr = convoArr;
+
         } else if (isHistoryConv.isHistory && isHistoryConv.historyId) {
             // If flagged as part of history, update the specific conversation array.
             convHistory = convHistory.map(conv => {
@@ -144,6 +145,7 @@ export const HandleApp = ({ children }) => {
                 }
                 return conv;
             });
+
         } else {
             // Create a new history record and add it to the array.
             const newHistory = {
@@ -157,13 +159,17 @@ export const HandleApp = ({ children }) => {
         }
 
         // Store the updated conversation history back into local storage.
-        localStorage.setItem('convHistory', JSON.stringify(convHistory));
-    };
 
+        localStorage.setItem('convHistory', JSON.stringify(convHistory));
+
+    };
 
     const handleNewConversation = () => {
         // Clear current conversation array to start fresh.
         setConvoArr([]);
+
+        // Reset any selected history conversation state.
+        setHistoryConv(false);
 
         // Close the history and navigation tabs.
         handleHisToggle(false);
@@ -186,9 +192,6 @@ export const HandleApp = ({ children }) => {
         // Increment the history ID to ensure a unique identifier for new conversations.
         handleIncHistory();
 
-        // Reset any selected history conversation state.
-        setHistoryConv({});
-
     };
 
     const handleIncHistory = () => {
@@ -201,7 +204,6 @@ export const HandleApp = ({ children }) => {
 
     const handleDeleteConverSation = (convId) => {
         // HANDLE UPDATE DELETED CONVERSATION ON CONVO BOX
-
         let updateScreen = [...convoArr]
 
         updateScreen = updateScreen.filter(screen => screen.convId !== convId)
@@ -216,6 +218,9 @@ export const HandleApp = ({ children }) => {
         // Retrieve the conversation history from localStorage.
         const storedConvHistory = localStorage.getItem('convHistory');
         const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
+
+        // Increment the ID if there is an existing conversation before fetching history
+        handleIncHistory();
 
         // Find the specific history that matches the given historyId.
         const findHistory = convHistory.find(conv => conv.historyId == historyId);

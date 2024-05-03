@@ -71,15 +71,7 @@ export const HistoryContext = ({ children }) => {
         }
 
         // Update the history by removing the specified conversation and filtering out any empty conversation arrays.
-        const updatedHistory = historyArr.map(historyItem => {
-            if (historyItem.historyId === historyId) {
-                return {
-                    ...historyItem,
-                    convoArr: historyItem.convoArr.filter(conversation => conversation.convId != convId)
-                };
-            }
-            return historyItem;
-        }).filter(historyItem => historyItem.convoArr.length > 0);
+        const updatedHistory = historyArr.filter(conversation => conversation.historyId != historyId)
 
         // Persist the updated history to localStorage.
         localStorage.setItem('convHistory', JSON.stringify(updatedHistory));
