@@ -2,7 +2,7 @@
 
 import { PiUserDuotone } from "react-icons/pi";
 import { MdOutlineWebhook } from "react-icons/md";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
 import { useAppStore } from "../appcontext";
 import styles from './chat.module.css'

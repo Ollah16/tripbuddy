@@ -27,7 +27,6 @@ export const HandleApp = ({ children }) => {
     const [isConvEdits, setEdits] = useState()
 
     const [isHistoryConv, setHistoryConv] = useState({})
-    const [isOpenConv, setOpenConv] = useState()
     // conversation array
 
     const [convoArr, setConvoArr] = useState([])
@@ -49,7 +48,6 @@ export const HandleApp = ({ children }) => {
 
             // Find the conversation that is marked as open and not yet closed.
             const openConv = convHistory.find(hist => hist.isOpen);
-            setOpenConv(openConv)
             // Set the fetched conversation array to state, or an empty array if no open conversation exists.
             setConvoArr(openConv ? openConv.convoArr : []);
 
@@ -269,7 +267,7 @@ export const HandleApp = ({ children }) => {
             value={{
                 historyToggle, handleHisToggle, navExpandToggle, handleNavToggle,
                 convoArr, handleConvo, handleHistory, handleNewConversation,
-                handleDeleteConverSation, handleFetchHistory, handleUpdateScreen, isOpenConv,
+                handleDeleteConverSation, handleFetchHistory, handleUpdateScreen,
                 setPrompt, setConvoArr, prompt, handleSentPrompt, isPromptSent, isConvEdits, setEdits
             }}>
             {children}
