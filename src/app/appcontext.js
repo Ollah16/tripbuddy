@@ -26,6 +26,8 @@ export const HandleApp = ({ children }) => {
 
     const [isConvEdits, setEdits] = useState()
 
+    const [isOpenConv, setIsOpenConv] = useState(false)
+
     const [isHistoryConv, setHistoryConv] = useState(false)
     // conversation array
 
@@ -48,7 +50,13 @@ export const HandleApp = ({ children }) => {
 
             // Find the conversation that is marked as open and not yet closed.
             const openConv = convHistory.find(hist => hist.isOpen);
+
+            // update open conversation state to handle history properly
+
+            setIsOpenConv(prev => prev = openConv)
+
             // Set the fetched conversation array to state, or an empty array if no open conversation exists.
+
             setConvoArr(openConv ? openConv.convoArr : []);
 
             // turnoff edit mode for scrollTo client height
@@ -59,7 +67,6 @@ export const HandleApp = ({ children }) => {
             console.error('Failed to load conversation history:', error);
         }
     }, []);
-
 
     const handleConvo = (e) => {
         // Process conversation if 'Enter' key is pressed or event is not provided, and prompt is not empty.
@@ -136,6 +143,16 @@ export const HandleApp = ({ children }) => {
         if (findHistory) {
             // Update the existing history record if found.
             findHistory.convoArr = convoArr;
+
+        } else if (isOpenConv) {
+            // Update open conversation effectively
+
+            convHistory = convHistory.map(conv => {
+                if (conv.isOpen) {
+                    return { ...conv, convoArr };
+                }
+                return conv;
+            });
 
         } else if (isHistoryConv.isHistory && isHistoryConv.historyId) {
             // If flagged as part of history, update the specific conversation array.
@@ -227,7 +244,7 @@ export const HandleApp = ({ children }) => {
 
         if (!findHistory) {
             console.error('No history found with the given ID:', historyId);
-            return; // Exit if no history is found.
+            return;
         }
 
         // Update the conversation array in the state with the fetched history.
