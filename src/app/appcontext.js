@@ -146,7 +146,6 @@ export const HandleApp = ({ children }) => {
 
         } else if (isOpenConv) {
             // Update open conversation effectively
-
             convHistory = convHistory.map(conv => {
                 if (conv.isOpen) {
                     return { ...conv, convoArr };
@@ -184,6 +183,9 @@ export const HandleApp = ({ children }) => {
     const handleNewConversation = () => {
         // Clear current conversation array to start fresh.
         setConvoArr([]);
+
+        // reset the dialogue and change it to false
+        setIsOpenConv(prev => prev = false)
 
         // Reset any selected history conversation state.
         setHistoryConv(false);
@@ -223,6 +225,9 @@ export const HandleApp = ({ children }) => {
         // HANDLE UPDATE DELETED CONVERSATION ON CONVO BOX
         let updateScreen = [...convoArr]
 
+        // reset the dialogue and change it to false
+        setIsOpenConv(prev => prev = false)
+
         updateScreen = updateScreen.filter(screen => screen.convId !== convId)
 
         // UPDATE CONVERSATION ARRAY
@@ -235,6 +240,9 @@ export const HandleApp = ({ children }) => {
         // Retrieve the conversation history from localStorage.
         const storedConvHistory = localStorage.getItem('convHistory');
         const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
+
+        // reset the dialogue and change it to false
+        setIsOpenConv(prev => prev = false)
 
         // Increment the ID if there is an existing conversation before fetching history
         handleIncHistory();
