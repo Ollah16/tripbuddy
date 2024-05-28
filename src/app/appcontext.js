@@ -41,31 +41,26 @@ export const HandleApp = ({ children }) => {
     //  * Loads the most recent open conversation from local storage when the component mounts.
 
     useEffect(() => {
-        try {
-            // Attempt to fetch the most recent conversation history from localStorage.
-            const storedConvHistory = localStorage.getItem('convHistory');
+        // Attempt to fetch the most recent conversation history from localStorage.
+        const storedConvHistory = localStorage.getItem('convHistory');
 
-            // Parse the stored conversation history, defaulting to an empty array if none exists.
-            const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
+        // Parse the stored conversation history, defaulting to an empty array if none exists.
+        const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
 
-            // Find the conversation that is marked as open and not yet closed.
-            const openConv = convHistory.find(hist => hist.isOpen);
+        // Find the conversation that is marked as open and not yet closed.
+        const openConv = convHistory.find(hist => hist.isOpen);
 
-            // update open conversation state to handle history properly
+        // update open conversation state to handle history properly
 
-            setIsOpenConv(prev => prev = openConv)
+        setIsOpenConv(prev => prev = openConv)
 
-            // Set the fetched conversation array to state, or an empty array if no open conversation exists.
+        // Set the fetched conversation array to state, or an empty array if no open conversation exists.
 
-            setConvoArr(openConv ? openConv.convoArr : []);
+        setConvoArr(openConv ? openConv.convoArr : []);
 
-            // turnoff edit mode for scrollTo client height
-            setEdits(false);
+        // turnoff edit mode for scrollTo client height
+        setEdits(false);
 
-        } catch (error) {
-            // Log any errors that occur during the fetch or parse process.
-            console.error('Failed to load conversation history:', error);
-        }
     }, []);
 
     const handleConvo = (e) => {
