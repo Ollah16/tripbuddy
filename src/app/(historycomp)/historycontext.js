@@ -112,6 +112,7 @@ export const HistoryContext = ({ children }) => {
         setUpdate(prev => !prev);
 
     };
+
     const handleSubmitRename = (convId, historyId, prompt) => {
         // Retrieve the conversation history from localStorage.
         const storedHistory = localStorage.getItem('convHistory');
@@ -124,14 +125,16 @@ export const HistoryContext = ({ children }) => {
         if (!Array.isArray(historyArr)) {
             return console.error('Stored conversation history is not in the expected array format.');
         }
+
         // Update the conversation array with the new prompt for the specified conversation.
         const updatedHistory = historyArr.map(hist => ({
             ...hist,
-            convoArr: hist.historyId === historyId ?
+            convoArr: hist.historyId == historyId ?
                 hist.convoArr.map(conv =>
                     conv.convId == convId ? { ...conv, prompt, isRename: false } : conv
                 ) : hist.convoArr
         }));
+
 
         // Persist the updated history back to local storage.
         localStorage.setItem('convHistory', JSON.stringify(updatedHistory));
@@ -145,6 +148,7 @@ export const HistoryContext = ({ children }) => {
     };
 
     const handleInputChange = (e) => {
+
         e.preventDefault();  // Prevent the default action to avoid any form submission or additional side effects.
 
         if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
@@ -181,7 +185,7 @@ export const HistoryContext = ({ children }) => {
             ...hist,
             convoArr: hist.convoArr.map(conv => ({
                 ...conv,
-                isOption: hist.historyId === historyId && conv.convId === convId
+                isOption: hist.historyId == historyId && conv.convId == convId
             }))
         }));
 
