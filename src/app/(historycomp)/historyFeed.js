@@ -13,13 +13,17 @@ const HistoryFeed = () => {
 
     useEffect(() => {
 
-        // fetch history for display
+        const fetchAndProcessHistory = async () => {
+            try {
+                const processedData = await processedHistory();
+                setHistory(processedData);
 
-        const getProcessedHistory = processedHistory()
+            } catch (error) {
+                console.error('Failed to fetch or process history:', error);
+            }
+        };
 
-        // set fetched history
-
-        setHistory(getProcessedHistory)
+        fetchAndProcessHistory();
 
     }, [convoArr, isHistoryUpDate]);
 

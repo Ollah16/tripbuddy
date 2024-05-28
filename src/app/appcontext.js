@@ -26,17 +26,13 @@ export const HandleApp = ({ children }) => {
 
     const [isConvEdits, setEdits] = useState()
 
-    const [isOpenConv, setIsOpenConv] = useState(false)
+    const [isOpenConv, setIsOpenConv] = useState({})
 
-    const [isHistoryConv, setHistoryConv] = useState(false)
-    // conversation array
+    const [isNewConv, setNewConv] = useState({})
 
     const [convoArr, setConvoArr] = useState([])
 
-    useEffect(() => {
-        // increase history ID in localstorage
-        handleIncHistory()
-    }, [])
+    const [isDelActive, setDelActive] = useState(false)
 
     //  * Loads the most recent open conversation from local storage when the component mounts.
 
@@ -52,7 +48,13 @@ export const HandleApp = ({ children }) => {
 
         // update open conversation state to handle history properly
 
-        setIsOpenConv(prev => prev = openConv)
+        setIsOpenConv(prev => ({ ...prev, onLoadOpenConv: openConv ? true : false }))
+
+        // update new conversation state which is dependent on open conversation
+
+        if (!openConv) {
+            handleNewConversation()
+        }
 
         // Set the fetched conversation array to state, or an empty array if no open conversation exists.
 
@@ -62,6 +64,15 @@ export const HandleApp = ({ children }) => {
         setEdits(false);
 
     }, []);
+
+    useEffect(() => {
+
+        if (isDelActive && convoArr.length < 1) {
+            handleNewConversation()
+        }
+        setDelActive(prev => prev = false)
+
+    }, [isDelActive]);
 
     const handleConvo = (e) => {
         // Process conversation if 'Enter' key is pressed or event is not provided, and prompt is not empty.
@@ -126,51 +137,43 @@ export const HandleApp = ({ children }) => {
 
     const handleHistory = (convoArr) => {
         // Fetch existing history ID or default to 0 if none exists.
-        const historyId = localStorage.getItem('historyId') || 0;
+        // const historyId = JSON.parse(localStorage.getItem('historyId')) || 0;
 
         // Retrieve conversation history from local storage and parse it.
         const storedConvHistory = localStorage.getItem('convHistory');
         let convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
 
         // Find existing history record.
-        let findHistory = convHistory.find(conv => conv.historyId == historyId);
+        let findHistory = convHistory.find(conv => conv.historyId === isNewConv.historyId);
+
 
         if (findHistory) {
             // Update the existing history record if found.
-            findHistory.convoArr = convoArr;
 
-        } else if (isOpenConv) {
-            // Update open conversation effectively
-            convHistory = convHistory.map(conv => {
-                if (conv.isOpen) {
-                    return { ...conv, convoArr };
-                }
-                return conv;
-            });
-
-        } else if (isHistoryConv.isHistory && isHistoryConv.historyId) {
-            // If flagged as part of history, update the specific conversation array.
-            convHistory = convHistory.map(conv => {
-                if (conv.historyId == isHistoryConv.historyId) {
-                    return { ...conv, convoArr };
-                }
-                return conv;
-            });
+            convHistory = convHistory.map((conv) => conv.historyId === isNewConv.historyId ? { ...conv, convoArr } : conv)
 
         } else {
-            // Create a new history record and add it to the array.
-            const newHistory = {
-                date: new Date(),
-                convoArr,
-                historyId,
-                isOpen: true
-            };
+            if (isNewConv.isConvNew && isNewConv.historyId) {
+                // Create a new history record and add it to the array.
+                convHistory.push({
+                    date: new Date(),
+                    convoArr,
+                    historyId: isNewConv.historyId,
+                    isOpen: true
+                });
 
-            convHistory.push(newHistory);
+            } else if (isOpenConv.onLoadOpenConv && !isOpenConv.historyConv && !isOpenConv.historyId) {
+                // Update open conversation effectively
+                convHistory = convHistory.map(conv => conv.isOpen ? { ...conv, convoArr } : conv);
+            } else if (isOpenConv.historyConv && isOpenConv.historyId) {
+                // Update the specific conversation in history
+                convHistory = convHistory.map(conv =>
+                    conv.historyId === isOpenConv.historyId ? { ...conv, convoArr } : conv
+                );
+            }
         }
 
         // Store the updated conversation history back into local storage.
-
         localStorage.setItem('convHistory', JSON.stringify(convHistory));
 
     };
@@ -179,18 +182,25 @@ export const HandleApp = ({ children }) => {
         // Clear current conversation array to start fresh.
         setConvoArr([]);
 
-        // reset the dialogue and change it to false
-        setIsOpenConv(prev => prev = false)
+        // Fetch existing history ID or default to 0 if none exists.
+        let newHistoryId = JSON.parse(localStorage.getItem('historyId')) || 0;
+        newHistoryId++
 
-        // Reset any selected history conversation state.
-        setHistoryConv(false);
+        setNewConv(prev => ({ ...prev, isConvNew: true, historyId: newHistoryId }))
+
+        // reset the dialogue and change it to false
+        setIsOpenConv(prev => ({ ...prev, onLoadOpenConv: false, historyConv: false, historyId: null }))
 
         // Close the history and navigation tabs.
         handleHisToggle(false);
         handleNavToggle(false);
 
+        // Increment the history ID to ensure a unique identifier for new conversations.
+        localStorage.setItem('historyId', JSON.stringify(newHistoryId))
+
         // Attempt to fetch and process the conversation history from localStorage.
         const storedConvHistory = localStorage.getItem('convHistory');
+
         if (!storedConvHistory) {
             // Exit the function early if no history is stored.
             return;
@@ -203,31 +213,25 @@ export const HandleApp = ({ children }) => {
         // Update the local storage with the new state of conversations.
         localStorage.setItem('convHistory', JSON.stringify(closeConv));
 
-        // Increment the history ID to ensure a unique identifier for new conversations.
-        handleIncHistory();
-
     };
-
-    const handleIncHistory = () => {
-        // handle increase history ID
-
-        let historyId = localStorage.getItem('historyId')
-        historyId++
-        localStorage.setItem('historyId', historyId)
-    }
 
     const handleDeleteConverSation = (convId) => {
         // HANDLE UPDATE DELETED CONVERSATION ON CONVO BOX
         let updateScreen = [...convoArr]
 
         // reset the dialogue and change it to false
-        setIsOpenConv(prev => prev = false)
+
+        setIsOpenConv(prev => ({ ...prev, onLoadOpenConv: false, historyConv: false, historyId: null }))
 
         updateScreen = updateScreen.filter(screen => screen.convId !== convId)
 
         // UPDATE CONVERSATION ARRAY
 
         setConvoArr(updateScreen)
+
+        // update for new conversation if neccessary
+
+        setDelActive(prev => prev = true)
     }
 
     const handleFetchHistory = (historyId) => {
@@ -236,12 +240,6 @@ export const HandleApp = ({ children }) => {
         const storedConvHistory = localStorage.getItem('convHistory');
         const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
 
-        // reset the dialogue and change it to false
-        setIsOpenConv(prev => prev = false)
-
-        // Increment the ID if there is an existing conversation before fetching history
-        handleIncHistory();
-
         // Find the specific history that matches the given historyId.
         const findHistory = convHistory.find(conv => conv.historyId == historyId);
 
@@ -249,6 +247,10 @@ export const HandleApp = ({ children }) => {
             console.error('No history found with the given ID:', historyId);
             return;
         }
+
+        // Generating a history conversation, reset the new conversation validator
+
+        setNewConv(prev => ({ ...prev, isConvNew: false, historyId: null }))
 
         // Update the conversation array in the state with the fetched history.
         setConvoArr(findHistory.convoArr);
@@ -268,8 +270,8 @@ export const HandleApp = ({ children }) => {
         // Update the local storage with the new state of the conversation histories.
         localStorage.setItem('convHistory', JSON.stringify(newConvHistory));
 
-        // Update state to reflect the current active history.
-        setHistoryConv({ isHistory: true, historyId });
+        // update type of conversation displayed
+        setIsOpenConv(prev => ({ ...prev, onLoadOpenConv: false, historyConv: true, historyId }))
 
     };
 
