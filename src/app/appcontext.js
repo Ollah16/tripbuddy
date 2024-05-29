@@ -125,7 +125,6 @@ export const HandleApp = ({ children }) => {
 
         // Store the updated conversation history back into local storage.
         localStorage.setItem('convHistory', JSON.stringify(convHistory));
-        localStorage.setItem('newConv', JSON.stringify(false))
     };
 
     const handleNewConversation = () => {
@@ -133,12 +132,13 @@ export const HandleApp = ({ children }) => {
 
         setConvoArr([]);
 
-        const isNewConv = JSON.parse(localStorage.getItem('newConv'))
-
         // Fetch existing history ID or default to 0 if none exists.
         let newHistoryId = JSON.parse(localStorage.getItem('historyId')) || 0;
+        const convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
-        newHistoryId = isNewConv ? newHistoryId : newHistoryId += 1
+        const isIDinUse = convHistory.find((conv) => conv.historyId === newHistoryId)
+
+        newHistoryId = !isIDinUse ? newHistoryId : newHistoryId += 1
 
         setNewConvId(prev => prev = newHistoryId)
 
@@ -147,7 +147,6 @@ export const HandleApp = ({ children }) => {
 
         localStorage.setItem('historyId', JSON.stringify(newHistoryId))
 
-        const convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
         if (!convHistory) {
             return;
@@ -156,7 +155,6 @@ export const HandleApp = ({ children }) => {
         const closeConv = convHistory.map(conv => ({ ...conv, isOpen: false }));
 
         localStorage.setItem('convHistory', JSON.stringify(closeConv));
-        localStorage.setItem('newConv', JSON.stringify(true))
 
     };
 
