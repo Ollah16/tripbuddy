@@ -45,7 +45,7 @@ const OptionComp = ({ convId, historyId, isOption }) => {
             optionCurrent.removeEventListener('mouseleave', handleMouseLeave)
         }
 
-    }, [])
+    }, [setHistoryUpdate])
 
 
 
