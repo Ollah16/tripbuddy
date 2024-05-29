@@ -10,8 +10,6 @@ const ChatComp = () => {
 
     const { historyToggle, handleHisToggle, convoArr } = useAppStore()
 
-    // characteristics of the ai journey buddy 
-
     const xteristics = {
 
         'sample prompts': [
@@ -67,7 +65,7 @@ const ChatComp = () => {
         window.addEventListener('resize', handleScreen)
 
         return () => window.removeEventListener('resize', handleScreen)
-    }, [])
+    }, [handleHisToggle])
 
     return (
         <div className="flex flex-col items-center gap-10 chatcomp relative" >

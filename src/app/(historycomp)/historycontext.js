@@ -9,7 +9,7 @@ const HistoryStore = createContext()
 
 export const HistoryContext = ({ children }) => {
 
-    const { handleDeleteConverSation, handleConvChanges, convoArr, setConvoArr, handleSentPrompt, setEdits } = useAppStore()
+    const { handleDeleteConverSation, handleConvChanges, convoArr, setConvoArr, handleSentPrompt, setConvEdits } = useAppStore()
 
     const [isHistoryUpDate, setHistoryUpdate] = useState(false)
 
@@ -181,7 +181,7 @@ export const HistoryContext = ({ children }) => {
 
         switch (amendType) {
             case 'edit':
-                setEdits(true);
+                setConvEdits(true);
                 updatedConvoArr = updatedConvoArr.map(chat =>
                 ({
                     ...chat,
@@ -225,7 +225,7 @@ export const HistoryContext = ({ children }) => {
                         ? { ...chat, isEdit: false }
                         : chat
                 );
-                setEdits(true);
+                setConvEdits(true);
                 break;
 
             default:

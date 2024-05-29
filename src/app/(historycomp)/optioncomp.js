@@ -18,6 +18,27 @@ const OptionComp = ({ convId, historyId, isOption }) => {
         // monitor dropdown options when the mouse cursor leaves the area
         const optionCurrent = optionRef.current
 
+        const handleMouseLeave = () => {
+            // Close dropdown options when the mouse cursor leaves the area
+
+            const convHistory = JSON.parse(localStorage.getItem('convHistory'));
+
+            const updateHistory = convHistory.map(hist => {
+
+                return {
+                    ...hist,
+                    convoArr: hist.convoArr.map(conv => ({
+                        ...conv,
+                        isOption: false
+                    }))
+                };
+            });
+
+            localStorage.setItem('convHistory', JSON.stringify(updateHistory));
+
+            setHistoryUpdate(prev => !prev);
+        }
+
         optionCurrent.addEventListener('mouseleave', handleMouseLeave)
 
         return () => {
@@ -28,26 +49,6 @@ const OptionComp = ({ convId, historyId, isOption }) => {
 
 
 
-    const handleMouseLeave = () => {
-        // Close dropdown options when the mouse cursor leaves the area
-
-        const convHistory = JSON.parse(localStorage.getItem('convHistory'));
-
-        const updateHistory = convHistory.map(hist => {
-
-            return {
-                ...hist,
-                convoArr: hist.convoArr.map(conv => ({
-                    ...conv,
-                    isOption: false
-                }))
-            };
-        });
-
-        localStorage.setItem('convHistory', JSON.stringify(updateHistory));
-
-        setHistoryUpdate(prev => !prev);
-    }
 
     return (
         <span ref={optionRef} className={`${isOption ? 'flex' : 'hidden'} flex-col gap-1 py-2 px-3 absolute right-0 bottom-[-80px] bg-black/90 z-50 rounded`}>
