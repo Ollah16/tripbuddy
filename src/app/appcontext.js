@@ -46,7 +46,7 @@ export const HandleApp = ({ children }) => {
         }
         setDelActive(prev => prev = false)
 
-    }, [isDelActive]);
+    }, [isDelActive, convoArr.length]);
 
     const handleConvo = () => {
         if (prompt.trim('\n') !== '') {

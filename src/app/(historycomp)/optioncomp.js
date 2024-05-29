@@ -16,11 +16,12 @@ const OptionComp = ({ convId, historyId, isOption }) => {
 
     useEffect(() => {
         // monitor dropdown options when the mouse cursor leaves the area
+        const optionCurrent = optionRef.current
 
-        optionRef.current?.addEventListener('mouseleave', handleMouseLeave)
+        optionCurrent.addEventListener('mouseleave', handleMouseLeave)
 
         return () => {
-            optionRef.current?.removeEventListener('mouseleave', handleMouseLeave)
+            optionCurrent.removeEventListener('mouseleave', handleMouseLeave)
         }
 
     }, [])

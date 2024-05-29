@@ -54,21 +54,20 @@ const ChatComp = () => {
     }
 
     useEffect(() => {
-
         // monitor with event listener
+
+        const handleScreen = () => {
+            // close history tab when screen is below medium
+
+            if (window.innerWidth < 768) {
+                handleHisToggle(false)
+            }
+        }
 
         window.addEventListener('resize', handleScreen)
 
         return () => window.removeEventListener('resize', handleScreen)
     }, [])
-
-    const handleScreen = () => {
-        // close history tab when screen is below medium
-
-        if (window.innerWidth < 768) {
-            handleHisToggle(false)
-        }
-    }
 
     return (
         <div className="flex flex-col items-center gap-10 chatcomp relative" >
