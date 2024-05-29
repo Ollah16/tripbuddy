@@ -49,10 +49,7 @@ export const HandleApp = ({ children }) => {
     }, [isDelActive]);
 
     const handleConvo = () => {
-        // Process conversation if 'Enter' key is pressed or event is not provided, and prompt is not empty.
         if (prompt.trim('\n') !== '') {
-
-            // Indicate loading state
             handleSentPrompt(true);
 
             // Scroll to the bottom of the conversation area
