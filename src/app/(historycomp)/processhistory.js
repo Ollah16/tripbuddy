@@ -2,8 +2,6 @@
 export const processedHistory = () => {
     // Categorize historical entries based on time periods
 
-    // extract history from localStorage
-
     const storedHistory = localStorage.getItem('convHistory');
     const getHistory = storedHistory ? JSON.parse(storedHistory) : [];
     const now = new Date();

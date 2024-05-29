@@ -9,47 +9,50 @@ const ChatBoxComp = () => {
     const { historyToggle, setPrompt, handleConvo, prompt, handleSentPrompt, isPromptSent } = useAppStore()
 
     const promptRef = useRef()
-    const textDivRef = useRef()
 
     useEffect(() => {
-        const textArea = promptRef.current
-        const textDivArea = textDivRef.current
+        const textArea = promptRef.current;
 
-        const flexTextHeight = () => {
+        const adjustTextAreaHeight = () => {
+            const lineHeight = parseInt(window.getComputedStyle(textArea).lineHeight);
+            const numberOfLines = Math.floor(textArea.scrollHeight / lineHeight);
 
-            const hasOverflowY = textArea.scrollHeight > textArea.clientHeight;
-
-            if (hasOverflowY) {
-                textArea.style.height = textArea.scrollHeight + 'px'
-                textArea.style.maxHeight = 70 + 'px'
-                textDivArea.style.height = textArea.scrollHeight + 'px'
-                textDivArea.style.maxHeight = 70 + 'px'
-
+            if (numberOfLines > 2) {
+                textArea.style.height = `${textArea.scrollHeight}px`;
+                textArea.style.overflowY = 'auto';
+                textArea.style.maxHeight = '70px';
+            } else if (numberOfLines === 2) {
+                textArea.style.overflowY = 'hidden';
+                textArea.style.maxHeight = '';
+                textArea.style.height = '40px';
             } else {
-                textArea.style.height = 45 + 'px'
+                textArea.style.overflowY = 'hidden';
+                textArea.style.height = '40px';
             }
-        }
+        };
 
-        textArea.addEventListener('input', flexTextHeight)
+        textArea.addEventListener('input', adjustTextAreaHeight);
 
         return () => {
-            textArea.removeEventListener('input', flexTextHeight)
-        }
+            textArea.removeEventListener('input', adjustTextAreaHeight);
+        };
+    }, [prompt]);
 
-    }, [])
 
     return (
         <div className={`w-11/12  ${historyToggle ? 'md:w-8/12' : 'md:w-9/12'} h-[100px] overflow-hidden py-3`}>
 
-            <div ref={textDivRef} className="border border-gray-500/50 rounded h-auto max-h-[90px] flex justify-between items-center py-0 gap-2 px-1" onKeyUp={handleConvo}>
-                <textarea
-                    ref={promptRef}
-                    id="chatInput"
-                    className="rounded w-full h-[45px] inline-block resize-none py-2 border-0 focus:outline-none bg-transparent my-auto overflow-auto overflow-x-hidden px-2 placeholder:md:text-base placeholder:text-xs leading-5"
-                    placeholder="Hi there! What adventure shall we go on today? 🚀"
-                    onInput={(e) => setPrompt(e.target.value)}
-                    value={prompt}
-                ></textarea>
+            <div className="border border-gray-500/50 rounded flex h-auto py-2 justify-between max-h-[80px] items-center gap-2 px-1">
+                <div className="flex items-center h-auto w-full">
+                    <textarea
+                        ref={promptRef}
+                        id="chatInput"
+                        className="rounded w-full h-[40px] inline-block resize-none py-2 border-0 focus:outline-none bg-transparent overflow-hidden px-2 placeholder:md:text-base placeholder:text-xs"
+                        placeholder="Hi there! What adventure shall we go on today? 🚀"
+                        onInput={(e) => setPrompt(e.target.value)}
+                        value={prompt}
+                    ></textarea>
+                </div>
 
                 <button
                     onClick={() => { handleConvo(); handleSentPrompt(true) }}

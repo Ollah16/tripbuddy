@@ -5,16 +5,12 @@ import { useHistoryFeed } from "./historycontext";
 
 const OptionComp = ({ convId, historyId, isOption }) => {
 
-    // options list
-
     const options = [
         { func: 'Rename', icon: <FiEdit2 /> },
         { func: 'Delete chat', icon: <MdOutlineDelete />, color: 'text-red-500' }
     ]
 
-    const { handleOptionEvents, setUpdate } = useHistoryFeed()
-
-    // options reference
+    const { handleOptionEvents, setHistoryUpdate } = useHistoryFeed()
 
     const optionRef = useRef()
 
@@ -34,27 +30,9 @@ const OptionComp = ({ convId, historyId, isOption }) => {
     const handleMouseLeave = () => {
         // Close dropdown options when the mouse cursor leaves the area
 
+        const convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
-        // extract history from localStorage
-
-        const storedHistory = localStorage.getItem('convHistory');
-
-        if (!storedHistory) {
-            console.error('No convHistory found in localStorage.');
-        }
-
-        // parse localstorage
-
-        const historyArr = JSON.parse(storedHistory);
-
-        if (!Array.isArray(historyArr)) {
-            console.error('Invalid convHistory format.');
-            return
-        }
-
-        // update history for localstorage
-
-        const updateHistory = historyArr.map(hist => {
+        const updateHistory = convHistory.map(hist => {
 
             return {
                 ...hist,
@@ -67,9 +45,7 @@ const OptionComp = ({ convId, historyId, isOption }) => {
 
         localStorage.setItem('convHistory', JSON.stringify(updateHistory));
 
-        // update any changes in the history
-
-        setUpdate(prev => !prev);
+        setHistoryUpdate(prev => !prev);
     }
 
     return (

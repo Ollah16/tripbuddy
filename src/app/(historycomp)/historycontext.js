@@ -9,33 +9,21 @@ const HistoryStore = createContext()
 
 export const HistoryContext = ({ children }) => {
 
-    const { handleDeleteConverSation, handleUpdateScreen, convoArr, setConvoArr, handleSentPrompt, setEdits } = useAppStore()
+    const { handleDeleteConverSation, handleConvChanges, convoArr, setConvoArr, handleSentPrompt, setEdits } = useAppStore()
 
-    // monitor any changes in history
-
-    const [isHistoryUpDate, setUpdate] = useState(false)
-
-    // set new prompt
+    const [isHistoryUpDate, setHistoryUpdate] = useState(false)
 
     const [newPrompt, setEditPrompt] = useState('')
 
     useEffect(() => {
+
         const initializeConversationHistory = () => {
             try {
                 // Retrieve the conversation history from localStorage.
-                const storedHistory = localStorage.getItem('convHistory');
-                if (!storedHistory) {
-                    throw new Error('No conversation history found in localStorage.');
-                }
-
-                // Parse the stored history and validate its format.
-                const historyArr = JSON.parse(storedHistory);
-                if (!Array.isArray(historyArr)) {
-                    throw new Error('Stored conversation history is not in the expected array format.');
-                }
+                const convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
                 // Reset amend-related properties for all conversations.
-                const updatedHistory = historyArr.map(hist => ({
+                const updatedHistory = convHistory.map(hist => ({
                     ...hist,
                     convoArr: hist.convoArr.map(conv => ({
                         ...conv,
@@ -45,10 +33,9 @@ export const HistoryContext = ({ children }) => {
                     }))
                 }));
 
-                // Persist the updated history to localStorage.
                 localStorage.setItem('convHistory', JSON.stringify(updatedHistory));
+
             } catch (error) {
-                // Log the error to the console.
                 console.error('Error initializing conversation history:', error);
             }
         };
@@ -59,25 +46,14 @@ export const HistoryContext = ({ children }) => {
 
     const handleDelete = (convId, historyId) => {
         // Fetch the stored conversation history from localStorage.
-        const storedHistory = localStorage.getItem('convHistory');
-        if (!storedHistory) {
-            console.error('No conversation history found in localStorage.');
-        }
 
-        // Parse the stored history and validate its format.
-        const historyArr = JSON.parse(storedHistory);
-        if (!Array.isArray(historyArr)) {
-            console.error('Stored conversation history is not in the expected array format.');
-        }
+        const convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
-        // Update the history by removing the specified conversation and filtering out any empty conversation arrays.
-        const updatedHistory = historyArr.filter(conversation => conversation.historyId != historyId)
+        const updatedHistory = convHistory.filter(conversation => conversation.historyId != historyId)
 
-        // Persist the updated history to localStorage.
         localStorage.setItem('convHistory', JSON.stringify(updatedHistory));
 
-        // Signal an update to trigger UI changes.
-        setUpdate(prev => !prev);
+        setHistoryUpdate(prev => !prev);
 
         // Additional UI handling for deleted conversation.
         handleDeleteConverSation(convId);
@@ -85,19 +61,9 @@ export const HistoryContext = ({ children }) => {
 
     const handleClickRename = (convId, historyId) => {
         // Retrieve the conversation history from localStorage.
-        const storedHistory = localStorage.getItem('convHistory');
-        if (!storedHistory) {
-            console.error('No conversation history found in localStorage.');
-        }
+        const convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
-        // Parse the stored history and ensure it is in the correct format.
-        const historyArr = JSON.parse(storedHistory);
-        if (!Array.isArray(historyArr)) {
-            console.error('Stored conversation history is not in the expected array format.');
-        }
-
-        // Update the conversation array to toggle the isRename flag for the specified conversation.
-        const updatedHistory = historyArr.map(hist => ({
+        const updatedHistory = convHistory.map(hist => ({
             ...hist,
             convoArr: hist.convoArr.map(conv => ({
                 ...conv,
@@ -105,29 +71,18 @@ export const HistoryContext = ({ children }) => {
             }))
         }));
 
-        // Persist the updated history back to local storage.
         localStorage.setItem('convHistory', JSON.stringify(updatedHistory));
 
-        // Trigger a state update to reflect changes.
-        setUpdate(prev => !prev);
+        setHistoryUpdate(prev => !prev);
 
     };
 
     const handleSubmitRename = (convId, historyId, prompt) => {
         // Retrieve the conversation history from localStorage.
-        const storedHistory = localStorage.getItem('convHistory');
-        if (!storedHistory) {
-            return console.error('No conversation history found in localStorage.');
-        }
 
-        // Parse the stored history and ensure it is in the correct format.
-        const historyArr = JSON.parse(storedHistory);
-        if (!Array.isArray(historyArr)) {
-            return console.error('Stored conversation history is not in the expected array format.');
-        }
+        const convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
-        // Update the conversation array with the new prompt for the specified conversation.
-        const updatedHistory = historyArr.map(hist => ({
+        const updatedHistory = convHistory.map(hist => ({
             ...hist,
             convoArr: hist.historyId == historyId ?
                 hist.convoArr.map(conv =>
@@ -135,31 +90,28 @@ export const HistoryContext = ({ children }) => {
                 ) : hist.convoArr
         }));
 
-
-        // Persist the updated history back to local storage.
         localStorage.setItem('convHistory', JSON.stringify(updatedHistory));
 
-        // Trigger a state update to reflect changes.
-        setUpdate(prev => !prev);
+        setHistoryUpdate(prev => !prev);
 
         // Call to update the UI with the new prompt.
-        handleUpdateScreen(convId, prompt);
+        handleConvChanges(convId, prompt);
 
     };
 
     const handleInputChange = (e) => {
 
-        e.preventDefault();  // Prevent the default action to avoid any form submission or additional side effects.
+        e.preventDefault();
 
         if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
-            // Ensure the action is processed only if 'Enter' is pressed while focused on an input element.
+
             const inputElement = e.target;
-            const inputValue = inputElement.value.trim();  // Trim the input to remove any leading/trailing whitespace.
+            const inputValue = inputElement.value.trim();
 
             const [convId, historyId] = inputElement.id.split('-');
             if (!convId || !historyId) {
                 console.error('Input ID is malformed or does not contain valid identifiers.');
-                return;  // exit if IDs are not correctly formatted or missing.
+                return;
             }
 
             // Call the function to handle the rename submission, passing the parsed IDs and user input.
@@ -169,19 +121,9 @@ export const HistoryContext = ({ children }) => {
 
     const handleMore = (convId, historyId) => {
         // Retrieve the conversation history from localStorage.
-        const storedHistory = localStorage.getItem('convHistory');
-        if (!storedHistory) {
-            throw new Error('No conversation history found in localStorage.');
-        }
+        const convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
-        // Parse the stored history and check for format correctness.
-        const historyArr = JSON.parse(storedHistory);
-        if (!Array.isArray(historyArr)) {
-            throw new Error('Stored conversation history is not in the expected array format.');
-        }
-
-        // Update isOption property for the specific conversation in the history.
-        const updatedHistory = historyArr.map(hist => ({
+        const updatedHistory = convHistory.map(hist => ({
             ...hist,
             convoArr: hist.convoArr.map(conv => ({
                 ...conv,
@@ -189,11 +131,9 @@ export const HistoryContext = ({ children }) => {
             }))
         }));
 
-        // Persist the updated history back to localStorage.
         localStorage.setItem('convHistory', JSON.stringify(updatedHistory));
 
-        // Trigger a state update to reflect changes.
-        setUpdate(prev => !prev);
+        setHistoryUpdate(prev => !prev);
 
     };
 
@@ -213,27 +153,20 @@ export const HistoryContext = ({ children }) => {
 
     const handleInputMouseLeave = () => {
         // Retrieve conversation history from localStorage.
-        const storedHistory = localStorage.getItem('convHistory');
+        const convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
-        if (!storedHistory) {
-            console.warn('No conversation history found in local storage.');
-            return; // Exit function if no history is found.
-        }
-
-        // Parse the stored history and ensure all conversations are not in rename state.
-        const parsedHistory = JSON.parse(storedHistory).map(hist => ({
+        const parsedHistory = convHistory.map(hist => ({
             ...hist,
             convoArr: hist.convoArr.map(conv => ({
                 ...conv,
-                isRename: false  // Ensuring all items are set to not being renamed.
+                isRename: false
             }))
         }));
 
-        // Persist the updated history back to local storage.
         localStorage.setItem('convHistory', JSON.stringify(parsedHistory));
 
         // Trigger a state update to reflect changes in the UI.
-        setUpdate(prev => !prev);
+        setHistoryUpdate(prev => !prev);
 
     };
 
@@ -242,16 +175,12 @@ export const HistoryContext = ({ children }) => {
         let updatedConvoArr = [...convoArr];
 
         // Fetch and parse the conversation history from localStorage.
-        const storedConvHistory = localStorage.getItem('convHistory');
-        let convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
+        let convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
-        // Define a variable to hold new responses for use in case 'save'.
         let newResponse;
 
-        // Handle different types of amendments.
         switch (amendType) {
             case 'edit':
-                // Enable editing mode.
                 setEdits(true);
                 updatedConvoArr = updatedConvoArr.map(chat =>
                 ({
@@ -262,8 +191,8 @@ export const HistoryContext = ({ children }) => {
                 break;
 
             case 'save':
-                if (!newPrompt) return; // Exit if no new prompt is provided.
-                handleSentPrompt(true); // Show loading indication.
+                if (!newPrompt) return;
+                handleSentPrompt(true);
 
                 const newEdit = {
                     role: 'user',
@@ -280,10 +209,9 @@ export const HistoryContext = ({ children }) => {
                                 : chat
                         );
 
-                        // Update conversation display.
                         setConvoArr(updatedConvoArr);
                         updateLocalHistory();
-                        handleSentPrompt(false); // Hide loading indication.
+                        handleSentPrompt(false)
                     })
                     .catch(err => {
                         console.error('Error fetching response:', err);
@@ -292,7 +220,6 @@ export const HistoryContext = ({ children }) => {
                 break;
 
             case 'cancel':
-                // Disable editing mode without saving changes.
                 updatedConvoArr = updatedConvoArr.map(chat =>
                     convId === chat.convId && prevPrompt === chat.prompt && chat.response === chatResponse
                         ? { ...chat, isEdit: false }
@@ -305,7 +232,6 @@ export const HistoryContext = ({ children }) => {
                 console.error('Invalid amendment type specified');
         }
 
-        // Update the conversation array with any changes.
         setConvoArr(updatedConvoArr);
 
         // Function to update local history.
@@ -321,21 +247,18 @@ export const HistoryContext = ({ children }) => {
             })
             );
 
-            // Persist the updated history to local storage.
             localStorage.setItem('convHistory', JSON.stringify(convHistory));
-            setUpdate(prev => !prev); // Toggle state to force an update.
-            setEditPrompt(''); // Clear the prompt input.
+            setHistoryUpdate(prev => !prev);
+            setEditPrompt('');
         };
     };
-
-
 
     return (
         <HistoryStore.Provider
             value={{
                 setEditPrompt, handleAmends, handleDelete, handleInputMouseLeave,
                 handleClickRename, handleSubmitRename, handleInputChange, handleMore,
-                handleOptionEvents, isHistoryUpDate, setUpdate
+                handleOptionEvents, isHistoryUpDate, setHistoryUpdate
             }}>
             {children}
         </HistoryStore.Provider>
