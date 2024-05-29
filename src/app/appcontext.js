@@ -76,7 +76,9 @@ export const HandleApp = ({ children }) => {
 
     const handleConvo = (e) => {
         // Process conversation if 'Enter' key is pressed or event is not provided, and prompt is not empty.
-        if ((e?.key === 'Enter' || !e) && prompt) {
+
+        if ((e?.key === 'Enter' || !e) && prompt.trim('\n')) {
+
             // Indicate loading state
             handleSentPrompt(true);
 

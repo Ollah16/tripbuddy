@@ -71,7 +71,7 @@ const ChatComp = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-between gap-10 chatcomp relative" >
+        <div className="flex flex-col items-center gap-10 chatcomp relative" >
             <Conversations convoArr={convoArr} />
 
             <div className={`transition-opacity duration-200 py-5 relative overflow-y-auto ease-in-out ${styles.conversation_box} ${convoArr.length ? 'hidden' : 'flex'} gap-5 items-center w-11/12 md:w-8/12 mx-auto  
