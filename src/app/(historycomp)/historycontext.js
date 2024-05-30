@@ -191,6 +191,7 @@ export const HistoryContext = ({ children }) => {
                 break;
 
             case 'save':
+                console.log('hello')
                 if (!newPrompt) return;
                 handleSentPrompt(true);
 
@@ -208,7 +209,7 @@ export const HistoryContext = ({ children }) => {
                                 ? { ...chat, prompt: newPrompt, response: newResponse, isEdit: false }
                                 : chat
                         );
-
+                        setEditPrompt('')
                         setConvoArr(updatedConvoArr);
                         updateLocalHistory();
                         handleSentPrompt(false)
