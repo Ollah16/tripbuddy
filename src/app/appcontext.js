@@ -72,7 +72,6 @@ export const HandleApp = ({ children }) => {
             const initConv = {
                 prompt: prompt,
                 response: '',
-                convId: convoArr.length,
                 date: new Date()
             };
 
