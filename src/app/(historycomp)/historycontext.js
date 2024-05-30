@@ -20,18 +20,22 @@ export const HistoryContext = ({ children }) => {
         const initializeConversationHistory = () => {
             try {
                 // Retrieve the conversation history from localStorage.
-                const convHistory = JSON.parse(localStorage.getItem('convHistory'));
+                const convHistory = JSON.parse(localStorage.getItem('convHistory')) || [];
 
                 // Reset amend-related properties for all conversations.
-                const updatedHistory = convHistory.map(hist => ({
-                    ...hist,
-                    convoArr: hist.convoArr.map(conv => ({
-                        ...conv,
-                        isRename: false,
-                        isOption: false,
-                        isEdit: false
-                    }))
-                }));
+                const updatedHistory = convHistory?.map(hist => {
+                    return {
+                        ...hist,
+                        convoArr: hist.convoArr.map(conv => ({
+                            ...conv,
+                            isRename: false,
+                            isOption: false,
+                            isEdit: false
+                        }))
+                    }
+                });
+
+                console.log(updatedHistory)
 
                 localStorage.setItem('convHistory', JSON.stringify(updatedHistory));
 

@@ -29,7 +29,7 @@ export const HandleApp = ({ children }) => {
         const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
 
         // Find the conversation that is marked as open and not yet closed.
-        const openConv = convHistory.find(hist => hist.isOpen);
+        const openConv = convHistory?.find(hist => hist.isOpen);
 
         if (!openConv) { handleNewConversation() }
 
