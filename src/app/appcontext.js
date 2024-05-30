@@ -78,7 +78,7 @@ export const HandleApp = ({ children }) => {
             const newConvoArr = [...convoArr, initConv];
 
             // Prepare the request object for the server
-            const request = { newChat: newConvoArr };
+            const request = newConvoArr;
 
             // Fetch response for the given prompt
             getResponse(request)
@@ -188,9 +188,9 @@ export const HandleApp = ({ children }) => {
         const convHistory = JSON.parse(localStorage.getItem('convHistory'));
 
         // Find the specific history that matches the given historyId.
-        const findHistory = convHistory.find(conv => conv.historyId == historyId);
+        const { convoArr } = convHistory.find(conv => conv.historyId === historyId);
 
-        setConvoArr(findHistory.convoArr);
+        setConvoArr(convoArr);
 
         handleNavToggle(false);
 

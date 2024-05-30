@@ -171,7 +171,7 @@ export const HistoryContext = ({ children }) => {
 
     };
 
-    const handleAmends = ({ amendType, convId, prevPrompt, chatResponse }) => {
+    const handleAmends = ({ amendType, convId }) => {
         // Clone the conversation array for immutability.
         let updatedConvoArr = [...convoArr];
 
@@ -186,22 +186,19 @@ export const HistoryContext = ({ children }) => {
                 updatedConvoArr = updatedConvoArr.map(chat =>
                 ({
                     ...chat,
-                    isEdit: convId === chat.convId && prevPrompt === chat.prompt && chat.response === chatResponse
-                })
-                );
+                    isEdit: convId === chat.convId
+                }));
+
                 break;
 
             case 'save':
-                console.log('hello')
                 if (!newPrompt) return;
                 handleSentPrompt(true);
 
-                const newEdit = {
-                    role: 'user',
-                    content: `Remember, each response should be gentle and tailored as if you're chatting with a child on an adventure. Your role is to be their friendly AI travel companion, so each and every interaction should be in a comforting tone and ensure to add interesting emojis to conversations. """${newPrompt}"""`
-                };
+                const extractConv = updatedConvoArr.filter((conv) => (conv.convId <= convId)).map(conv => (conv.convId === convId ? { ...conv, prompt: newPrompt, response: '' } : conv))
 
-                const request = { editedPrompt: [newEdit] };
+                const request = extractConv;
+
                 getResponse(request)
                     .then(response => {
                         newResponse = response.content;
@@ -223,7 +220,7 @@ export const HistoryContext = ({ children }) => {
 
             case 'cancel':
                 updatedConvoArr = updatedConvoArr.map(chat =>
-                    convId === chat.convId && prevPrompt === chat.prompt && chat.response === chatResponse
+                    convId === chat.convId
                         ? { ...chat, isEdit: false }
                         : chat
                 );
@@ -239,19 +236,13 @@ export const HistoryContext = ({ children }) => {
         // Function to update local history.
         const updateLocalHistory = () => {
             convHistory = convHistory.map(hist =>
-            ({
+            (hist.isOpen ? {
                 ...hist,
-                convoArr: hist.convoArr.map(conv =>
-                    convId === conv.convId && conv.prompt === prevPrompt && conv.response === chatResponse
-                        ? { ...conv, prompt: newPrompt, response: newResponse }
-                        : conv
-                )
-            })
-            );
+                convoArr: updatedConvoArr
+            } : hist));
 
             localStorage.setItem('convHistory', JSON.stringify(convHistory));
             setHistoryUpdate(prev => !prev);
-            setEditPrompt('');
         };
     };
 

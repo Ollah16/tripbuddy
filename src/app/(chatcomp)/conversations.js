@@ -78,16 +78,19 @@ const Conversations = () => {
                             </span>
                             <div className="ml-[1.5rem] flex flex-col">
                                 <span className={`text-pretty break-words ${chat.isEdit ? 'hidden' : 'block'}`}>{chat.prompt}</span>
-                                <input onKeyUp={(e) => setEditPrompt(e.target.value)} defaultValue={chat.prompt}
-                                    className={`caret-black mb-2 text-wrap w-full h-auto rounded px-1 resize-none ${chat.isEdit ? 'block focus:border border-white' : 'hidden'} bg-transparent h-auto focus:outline-none w-full`} />
+
+                                {chat.isEdit &&
+                                    <input onInput={(e) => setEditPrompt(e.target.value)} defaultValue={chat.prompt}
+                                        className={`caret-black mb-2 text-wrap w-full h-auto rounded px-1 resize-none block focus:border border-white bg-transparent focus:outline-none`} />
+                                }
 
                                 <button className={`${chat.isEdit ? 'hidden' : 'block'} bg-transparent edit_Btn`}
-                                    onClick={() => handleAmends({ amendType: 'edit', convId: chat.convId, prevPrompt: chat.prompt, chatResponse: chat.response })} ><MdOutlineEdit /></button>
+                                    onClick={() => handleAmends({ amendType: 'edit', convId: chat.convId })} ><MdOutlineEdit /></button>
 
                                 <div className={`flex flex-col gap-2 ${chat.isEdit ? 'block' : 'hidden'}`}>
                                     <div className="flex gap-2">
-                                        <button onClick={() => handleAmends({ amendType: 'save', convId: chat.convId, prevPrompt: chat.prompt, chatResponse: chat.response })} className="bg-green-800 transition-bg ease-in-out duration-100 hover:bg-green-800/90 p-1 rounded text-white">Save & Submit</button>
-                                        <button onClick={() => handleAmends({ amendType: 'cancel', convId: chat.convId, prevPrompt: chat.prompt, chatResponse: chat.response })} className="bg-transparent p-1 rounded  hover:bg-transparent/10 border border-black/70">Cancel</button>
+                                        <button onClick={() => handleAmends({ amendType: 'save', convId: chat.convId })} className="bg-green-800 transition-bg ease-in-out duration-100 hover:bg-green-800/90 p-1 rounded text-white">Save & Submit</button>
+                                        <button onClick={() => handleAmends({ amendType: 'cancel', convId: chat.convId })} className="bg-transparent p-1 rounded  hover:bg-transparent/10 border border-black/70">Cancel</button>
                                     </div>
                                 </div>
                             </div>

@@ -4,10 +4,9 @@ import OpenAI from "openai";
 export const getResponse = async (request) => {
     // fetch prompt response api
 
-    const { newChat, editedPrompt } = request;
 
     // Process new chat entries or use edited prompt
-    const newArray = newChat ? newChat.map(element => {
+    const newArray = request.map(element => {
         // Extract content from element and remove unnecessary properties
         const { prompt: content, response, convId, date, isEdit, isOption, isRename, isShare, ...rest } = element;
 
@@ -18,8 +17,7 @@ export const getResponse = async (request) => {
             content: `Remember, each response should be gentle and tailored as if you're chatting with a child on an adventure. Your role is to be their friendly AI travel companion, so each and every interaction should be in a comforting tone and ensure to add interesting emojis to conversations.
              """${content}"""`
         };
-    }) : editedPrompt;
-
+    })
 
     try {
         const openai = new OpenAI({
