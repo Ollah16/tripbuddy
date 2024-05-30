@@ -24,32 +24,40 @@ export const HandleApp = ({ children }) => {
 
     useEffect(() => {
         // Attempt to fetch the most recent conversation history from localStorage.
-        try {
-            const storedConvHistory = localStorage.getItem('convHistory');
+        const fetchOpenConvo = () => {
 
-            const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
+            try {
+                const storedConvHistory = localStorage.getItem('convHistory');
 
-            // Find the conversation that is marked as open and not yet closed.
-            const openConv = convHistory?.find(hist => hist.isOpen);
+                const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
 
-            if (!openConv) { handleNewConversation() }
+                // Find the conversation that is marked as open and not yet closed.
+                const openConv = convHistory?.find(hist => hist.isOpen);
 
-            setConvoArr(openConv ? openConv.convoArr : []);
+                if (!openConv) { handleNewConversation() }
 
-            setConvEdits(false);
+                setConvoArr(openConv ? openConv.convoArr : []);
+
+                setConvEdits(false);
+            }
+            catch (err) {
+                console.error(err)
+            }
         }
-        catch (err) {
-            console.error(err)
-        }
 
+        fetchOpenConvo()
     }, []);
 
     useEffect(() => {
 
-        if (isDelActive && convoArr.length < 1) {
-            handleNewConversation()
+        const monitorDel = () => {
+            if (isDelActive && convoArr.length < 1) {
+                handleNewConversation()
+            }
+            setDelActive(prev => prev = false)
         }
-        setDelActive(prev => prev = false)
+
+        monitorDel()
 
     }, [isDelActive, convoArr.length]);
 

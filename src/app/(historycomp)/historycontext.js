@@ -42,7 +42,6 @@ export const HistoryContext = ({ children }) => {
             }
         };
 
-        // Execute the initialization function.
         initializeConversationHistory();
     }, []);
 
