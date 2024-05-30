@@ -24,18 +24,23 @@ export const HandleApp = ({ children }) => {
 
     useEffect(() => {
         // Attempt to fetch the most recent conversation history from localStorage.
-        const storedConvHistory = localStorage.getItem('convHistory');
+        try {
+            const storedConvHistory = localStorage.getItem('convHistory');
 
-        const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
+            const convHistory = storedConvHistory ? JSON.parse(storedConvHistory) : [];
 
-        // Find the conversation that is marked as open and not yet closed.
-        const openConv = convHistory?.find(hist => hist.isOpen);
+            // Find the conversation that is marked as open and not yet closed.
+            const openConv = convHistory?.find(hist => hist.isOpen);
 
-        if (!openConv) { handleNewConversation() }
+            if (!openConv) { handleNewConversation() }
 
-        setConvoArr(openConv ? openConv.convoArr : []);
+            setConvoArr(openConv ? openConv.convoArr : []);
 
-        setConvEdits(false);
+            setConvEdits(false);
+        }
+        catch (err) {
+            console.error(err)
+        }
 
     }, []);
 
