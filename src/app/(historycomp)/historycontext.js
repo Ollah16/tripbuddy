@@ -35,8 +35,6 @@ export const HistoryContext = ({ children }) => {
                     }
                 });
 
-                console.log(updatedHistory)
-
                 localStorage.setItem('convHistory', JSON.stringify(updatedHistory));
 
             } catch (error) {
