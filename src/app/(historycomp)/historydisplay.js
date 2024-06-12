@@ -1,10 +1,9 @@
 import { SlOptions } from "react-icons/sl";
 import OptionComp from "./optioncomp";
-import { memo } from "react";
 import { useConvContext } from "../context/convoContext";
 import { useHistoryFeed } from "../context/historycontext";
 
-const HistoryDisplay = memo(({ history, title }) => {
+const HistoryDisplay = ({ history, title }) => {
 
 
     const { handleFetchHistory } = useConvContext()
@@ -51,6 +50,6 @@ const HistoryDisplay = memo(({ history, title }) => {
         </ul >
 
     )
-})
+}
 
 export default HistoryDisplay
