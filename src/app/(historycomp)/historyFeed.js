@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useHistoryFeed } from "../context/historycontext";
 import { processedHistory } from "./processhistory";
 import HistoryDisplay from "./historydisplay";
@@ -9,8 +9,12 @@ const HistoryFeed = () => {
 
     const { convoArr } = useConvContext()
     const { isHistoryUpDate } = useHistoryFeed()
+    const [history, setHistory] = useState('')
 
-    const history = useMemo(() => processedHistory(), [convoArr, isHistoryUpDate])
+    useEffect(() => {
+        const getHistory = processedHistory()
+        setHistory(getHistory)
+    }, [convoArr, isHistoryUpDate])
 
     return (<div className={`overflow-y-auto ${styles.history_height}`}>
         {
