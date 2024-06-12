@@ -1,32 +1,16 @@
-import { useEffect, useState } from "react";
-import { useAppStore } from "../appcontext";
-import { useHistoryFeed } from "./historycontext";
+import { useMemo } from "react";
+import { useHistoryFeed } from "../context/historycontext";
 import { processedHistory } from "./processhistory";
 import HistoryDisplay from "./historydisplay";
 import styles from './history.module.css'
+import { useConvContext } from "../context/convoContext";
 
 const HistoryFeed = () => {
 
-    const [history, setHistory] = useState();
-    const { convoArr } = useAppStore()
+    const { convoArr } = useConvContext()
     const { isHistoryUpDate } = useHistoryFeed()
 
-    useEffect(() => {
-
-        const fetchAndProcessHistory = async () => {
-            try {
-                const processedData = await processedHistory();
-                setHistory(processedData);
-
-            } catch (error) {
-                console.error('Failed to fetch or process history:', error);
-            }
-        };
-
-        fetchAndProcessHistory();
-
-    }, [convoArr, isHistoryUpDate]);
-
+    const history = useMemo(() => processedHistory(), [convoArr, isHistoryUpDate])
 
     return (<div className={`overflow-y-auto ${styles.history_height}`}>
         {

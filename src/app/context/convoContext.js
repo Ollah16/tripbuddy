@@ -1,10 +1,10 @@
 'use client'
 import { createContext, useState, useContext, useEffect } from 'react'
-import { getResponse } from './(chatcomp)/fetchresponse'
+import { getResponse } from '../(chatcomp)/fetchresponse'
 
-const AppContext = createContext(null)
+const ConvoContext = createContext(null)
 
-export const HandleApp = ({ children }) => {
+export const ConversationContext = ({ children }) => {
 
     const [historyToggle, handleHisToggle] = useState(false)
 
@@ -77,7 +77,6 @@ export const HandleApp = ({ children }) => {
 
             const newConvoArr = [...convoArr, initConv];
 
-            // Prepare the request object for the server
             const request = newConvoArr;
 
             // Fetch response for the given prompt
@@ -220,7 +219,7 @@ export const HandleApp = ({ children }) => {
     };
 
     return (
-        <AppContext.Provider
+        <ConvoContext.Provider
             value={{
                 historyToggle, handleHisToggle, navExpandToggle, handleNavToggle,
                 convoArr, handleConvo, handleHistory, handleNewConversation,
@@ -228,9 +227,9 @@ export const HandleApp = ({ children }) => {
                 setPrompt, setConvoArr, prompt, handleSentPrompt, isPromptSent, isConvEdits, setConvEdits
             }}>
             {children}
-        </AppContext.Provider>
+        </ConvoContext.Provider>
     )
 }
 
-export const useAppStore = () => useContext(AppContext)
+export const useConvContext = () => useContext(ConvoContext)
 

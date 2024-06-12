@@ -1,9 +1,9 @@
 'use client'
 
-import { useAppStore } from "../appcontext"
+import { useConvContext } from "../context/convoContext"
 
 const NavBurger = () => {
-    const { navExpandToggle, handleNavToggle } = useAppStore()
+    const { navExpandToggle, handleNavToggle } = useConvContext()
 
     return (
         <div className="relative flex flex-col justify-center md:hidden gap-1 cursor-pointer w-6 h-6 overflow-hidden" onClick={() => handleNavToggle(!navExpandToggle)}>

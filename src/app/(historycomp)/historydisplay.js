@@ -1,15 +1,13 @@
 import { SlOptions } from "react-icons/sl";
-import styles from './history.module.css'
 import OptionComp from "./optioncomp";
-import { useAppStore } from "../appcontext";
-import { useHistoryFeed } from "./historycontext";
+import { memo } from "react";
+import { useConvContext } from "../context/convoContext";
+import { useHistoryFeed } from "../context/historycontext";
 
-const HistoryDisplay = ({
-    history,
-    title
-}) => {
+const HistoryDisplay = memo(({ history, title }) => {
 
-    const { handleFetchHistory } = useAppStore()
+
+    const { handleFetchHistory } = useConvContext()
     const { handleMore, handleInputChange, handleInputMouseLeave } = useHistoryFeed()
 
     return (
@@ -26,7 +24,9 @@ const HistoryDisplay = ({
                         <li
                             className={`relative over histLi history text-md history flex py-[0.5px] ml-[-0.25rem] px-1 rounded items-center justify-between cursor-pointer hover:bg-[#e7e9ee]/10 transition-colors duration-200 ease-in-out`} key={index}>
                             {!conv.isRename ?
-                                <h5 className={`cursor-pointer overflow-hidden text-nowrap text-ellipsis w-11/12`} onClick={() => handleFetchHistory(hist.historyId)}>{conv.prompt}</h5>
+                                <h5 className={`cursor-pointer overflow-hidden text-nowrap text-ellipsis w-11/12`}
+                                    onClick={() => handleFetchHistory(hist.historyId)}
+                                >{conv.prompt}</h5>
                                 :
                                 <input
                                     id={`${conv.convId}-${hist.historyId}`}
@@ -34,7 +34,8 @@ const HistoryDisplay = ({
                                     defaultValue={conv.prompt}
                                     onKeyUp={handleInputChange}
                                     className="bg-transparent border-2 border-white rounded focus:outline-none px-2 caret-white" />}
-                            <button onClick={() => handleMore(conv.convId, hist.historyId)}
+                            <button
+                                onClick={() => handleMore(conv.convId, hist.historyId)}
                                 className={`h-fit optionBtn`}><SlOptions /></button>
 
 
@@ -50,6 +51,6 @@ const HistoryDisplay = ({
         </ul >
 
     )
-}
+})
 
 export default HistoryDisplay

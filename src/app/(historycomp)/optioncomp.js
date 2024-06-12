@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
-import { useHistoryFeed } from "./historycontext";
+import { useHistoryFeed } from "../context/historycontext";
 
 const OptionComp = ({ convId, historyId, isOption }) => {
 

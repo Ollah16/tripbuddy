@@ -1,9 +1,9 @@
-import { useAppStore } from "../appcontext"
 import { MdOutlineWebhook } from "react-icons/md";
 import { TiMessageTyping } from "react-icons/ti";
+import { useConvContext } from "../context/convoContext";
 
 const NewChat = () => {
-    const { handleNewConversation } = useAppStore()
+    const { handleNewConversation } = useConvContext()
 
     return (
         <label className="flex mb-2 py-1 text-white px-1 rounded items-center justify-between cursor-pointer hover:bg-[#e7e9ee]/10 transition-colors duration-200 ease-in-out" htmlFor="chatInput"

@@ -1,10 +1,10 @@
-import { useAppStore } from "../appcontext"
 import HistoryFeed from "../(historycomp)/historyFeed"
 import NewChat from "../(historycomp)/newchat"
+import { useConvContext } from "../context/convoContext"
 
 const NavExpand = () => {
 
-    const { navExpandToggle } = useAppStore()
+    const { navExpandToggle } = useConvContext()
 
 
     return (

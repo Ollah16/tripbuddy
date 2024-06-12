@@ -1,12 +1,12 @@
 import { BsSendFill } from "react-icons/bs";
-import { useAppStore } from "../appcontext";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import styles from './chat.module.css'
 import { useEffect, useRef } from "react";
+import { useConvContext } from "../context/convoContext";
 
 const ChatBoxComp = () => {
 
-    const { historyToggle, setPrompt, handleConvo, prompt, handleSentPrompt, isPromptSent } = useAppStore()
+    const { historyToggle, setPrompt, handleConvo, prompt, handleSentPrompt, isPromptSent } = useConvContext()
 
     const promptRef = useRef()
 

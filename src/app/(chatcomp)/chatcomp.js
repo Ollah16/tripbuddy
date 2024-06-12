@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import ChatBoxComp from "./chatboxcomp"
 import Conversations from "./conversations"
 import XteristicsComp from "./xteristics"
-import { useAppStore } from "../appcontext"
 import styles from './chat.module.css'
+import { useConvContext } from "../context/convoContext"
 
 const ChatComp = () => {
 
 
-    const { historyToggle, handleHisToggle, convoArr } = useAppStore()
+    const { historyToggle, handleHisToggle, convoArr } = useConvContext()
 
     const xteristics = {
 

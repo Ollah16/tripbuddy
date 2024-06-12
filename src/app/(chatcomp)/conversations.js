@@ -4,14 +4,14 @@ import { PiUserDuotone } from "react-icons/pi";
 import { MdOutlineWebhook } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
-import { useAppStore } from "../appcontext";
 import styles from './chat.module.css'
 import { MdOutlineEdit } from "react-icons/md";
-import { useHistoryFeed } from "../(historycomp)/historycontext";
+import { useHistoryFeed } from "../context/historycontext";
+import { useConvContext } from "../context/convoContext";
 
 const Conversations = () => {
 
-    const { historyToggle, convoArr, isConvEdits } = useAppStore()
+    const { historyToggle, convoArr, isConvEdits } = useConvContext()
 
     const { handleAmends, setEditPrompt } = useHistoryFeed()
 

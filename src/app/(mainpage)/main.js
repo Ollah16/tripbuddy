@@ -5,13 +5,12 @@ import IntroComp from "../(introcomp)/intro"
 import ChatComp from "../(chatcomp)/chatcomp"
 import HistoryExpanded from "../(historycomp)/historycomp"
 import NavExpand from "../(navbar)/navexpand"
-import { useAppStore } from "../appcontext"
 import styles from './main.module.css'
 import HistoryToggle from "../(historycomp)/historytog"
-import { useEffect, useState } from "react"
+import { useConvContext } from "../context/convoContext"
 
 const Main = () => {
-    const { historyToggle } = useAppStore()
+    const { historyToggle } = useConvContext()
 
 
 

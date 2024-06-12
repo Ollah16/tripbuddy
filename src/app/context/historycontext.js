@@ -1,15 +1,15 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { useAppStore } from "../appcontext";
 import { getResponse } from "../(chatcomp)/fetchresponse";
+import { useConvContext } from "./convoContext";
 
 const HistoryStore = createContext()
 
 
 export const HistoryContext = ({ children }) => {
 
-    const { handleDeleteConverSation, handleConvChanges, convoArr, setConvoArr, handleSentPrompt, setConvEdits } = useAppStore()
+    const { handleDeleteConverSation, handleConvChanges, convoArr, setConvoArr, handleSentPrompt, setConvEdits } = useConvContext()
 
     const [isHistoryUpDate, setHistoryUpdate] = useState(false)
 
@@ -44,6 +44,7 @@ export const HistoryContext = ({ children }) => {
 
         initializeConversationHistory();
     }, []);
+
 
     const handleDelete = (convId, historyId) => {
         // Fetch the stored conversation history from localStorage.

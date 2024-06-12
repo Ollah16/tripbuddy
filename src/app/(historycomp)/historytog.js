@@ -1,10 +1,10 @@
 'use client'
-import { useAppStore } from "../appcontext"
 import { GrClose } from "react-icons/gr";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
+import { useConvContext } from "../context/convoContext";
 
 const HistoryToggle = () => {
-    const { historyToggle, handleHisToggle } = useAppStore()
+    const { historyToggle, handleHisToggle } = useConvContext()
 
     return (
         <ul className={`gap-3 h-full hidden md:flex fixed top-[50%] transition-left ease-in-out duration-200 ${historyToggle ? 'left-[300px]' : 'left-0'}`}>
